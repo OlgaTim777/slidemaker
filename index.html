@@ -26,7 +26,7 @@
   ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.16); }
 
-  #app { display: grid; grid-template-columns: 240px 1fr 300px; grid-template-rows: 60px 1fr; height: 100vh; }
+  #app { display: grid; grid-template-columns: 240px 1fr 340px; grid-template-rows: 60px 1fr; height: 100vh; }
 
   header {
     grid-column: 1 / -1; display: flex; align-items: center; padding: 0 20px; gap: 10px;
@@ -55,11 +55,9 @@
   .btn-danger { background: rgba(239,68,68,.15); border-color: rgba(239,68,68,.3); color: #ff8a8a; }
   .btn-danger:hover { background: rgba(239,68,68,.25); }
   .btn-success { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.3); color: #6ee7b7; }
-  .btn-success:hover { background: rgba(16,185,129,.25); }
   .btn-ghost { background: transparent; border-color: transparent; }
   .btn-ghost:hover { background: rgba(255,255,255,.06); }
   .btn-icon { padding: 8px; width: 34px; height: 34px; justify-content: center; }
-  .btn[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
   .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
 
   aside { background: rgba(19,22,35,.55); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); overflow-y: auto; padding: 16px; display: flex; flex-direction: column; }
@@ -104,7 +102,6 @@
   }
   #stage.drag-over { outline: 3px dashed var(--accent); outline-offset: 6px; }
 
-  /* ===== ЭЛЕМЕНТЫ ===== */
   .el { position: absolute; cursor: move; min-width: 30px; min-height: 30px; }
   .el.selected { outline: 2px solid var(--accent); outline-offset: 1px; }
   .el:hover:not(.selected) { outline: 1px dashed rgba(139,92,246,.4); outline-offset: 1px; }
@@ -142,42 +139,21 @@
   .el:hover .drag-hint { display: block; }
   .el.interactive .drag-hint { display: none !important; }
 
-  /* ===== QUIZ ЭЛЕМЕНТ НА СЛАЙДЕ ===== */
   .el .quiz-block {
     width: 100%; height: 100%;
     background: linear-gradient(135deg, #fefefe, #f8f9ff);
-    border: 2px solid #e0e4f5;
-    border-radius: 12px;
-    padding: 14px;
-    display: flex; flex-direction: column; gap: 8px;
-    overflow: hidden;
-    font-size: 13px;
-    color: #333;
+    border: 2px solid #e0e4f5; border-radius: 12px;
+    padding: 14px; display: flex; flex-direction: column; gap: 8px;
+    overflow: hidden; font-size: 13px; color: #333;
   }
-  .el .quiz-block .quiz-label {
-    font-size: 10px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: .8px; color: #8b5cf6;
-  }
-  .el .quiz-block .quiz-q {
-    font-weight: 600; font-size: 14px; color: #1a1f30;
-    line-height: 1.4;
-  }
+  .el .quiz-block .quiz-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #8b5cf6; }
+  .el .quiz-block .quiz-q { font-weight: 600; font-size: 14px; color: #1a1f30; line-height: 1.4; }
   .el .quiz-block .quiz-opts { display: flex; flex-direction: column; gap: 5px; flex: 1; overflow-y: auto; }
-  .el .quiz-block .quiz-opt {
-    display: flex; align-items: center; gap: 8px;
-    padding: 6px 10px; background: #fff;
-    border: 1.5px solid #e0e4f5; border-radius: 8px;
-    font-size: 12px; color: #333;
-  }
-  .el .quiz-block .quiz-opt .dot {
-    width: 16px; height: 16px; border-radius: 50%;
-    border: 2px solid #c4c8e0; flex-shrink: 0;
-    display: grid; place-items: center; font-size: 9px; color: #fff;
-  }
+  .el .quiz-block .quiz-opt { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #fff; border: 1.5px solid #e0e4f5; border-radius: 8px; font-size: 12px; color: #333; }
+  .el .quiz-block .quiz-opt .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #c4c8e0; flex-shrink: 0; display: grid; place-items: center; font-size: 9px; color: #fff; }
   .el .quiz-block .quiz-opt.correct .dot { background: #10b981; border-color: #10b981; }
   .el .quiz-block .quiz-opt.correct { border-color: #10b981; background: #ecfdf5; }
 
-  /* ===== ПАЛИТРА ===== */
   .palette { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .palette-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; background: var(--bg-2); border: 1px solid var(--stroke); border-radius: 10px; cursor: grab; transition: all .15s ease; user-select: none; text-align: center; }
   .palette-item:hover { background: var(--bg-3); border-color: rgba(139,92,246,.5); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.3); }
@@ -185,10 +161,31 @@
   .palette-icon { font-size: 22px; line-height: 1; }
   .palette-label { font-size: 12px; color: var(--text); font-weight: 500; }
 
-  .tabs { display: flex; border-bottom: 1px solid var(--stroke); background: rgba(0,0,0,.15); }
-  .tab { flex: 1; padding: 14px 8px; background: transparent; border: none; color: var(--muted); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s ease; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .tab:hover { color: var(--text); background: rgba(255,255,255,.02); }
-  .tab.active { color: var(--text); border-bottom-color: var(--accent); background: linear-gradient(180deg, transparent, rgba(139,92,246,.08)); }
+  /* ===== ВКЛАДКИ — с подписями ===== */
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-bottom: 1px solid var(--stroke);
+    background: rgba(0,0,0,.15);
+  }
+  .tab {
+    padding: 10px 4px 9px;
+    background: transparent; border: none;
+    color: var(--muted);
+    font: inherit; font-size: 10px; font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all .15s ease;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 3px;
+    white-space: nowrap; overflow: hidden;
+  }
+  .tab .tab-ic { font-size: 16px; line-height: 1; }
+  .tab .tab-lb { font-size: 9px; text-transform: uppercase; letter-spacing: .3px; }
+  .tab:hover { color: var(--text); background: rgba(255,255,255,.03); }
+  .tab.active { color: var(--text); border-bottom-color: var(--accent); background: linear-gradient(180deg, transparent, rgba(139,92,246,.1)); }
+  .tab.active .tab-ic { transform: scale(1.15); }
+
   .tab-content { padding: 16px; overflow-y: auto; flex: 1; }
   .tab-pane { display: none; }
   .tab-pane.active { display: block; }
@@ -210,49 +207,50 @@
   .editor-card .actions { display: flex; gap: 6px; flex-wrap: wrap; }
   .editor-card .actions .btn { flex: 1; padding: 6px 8px; font-size: 12px; justify-content: center; min-width: 70px; }
 
-  /* ===== QUIZ ПАНЕЛЬ ===== */
   .quiz-choice-list { display: flex; flex-direction: column; gap: 6px; }
-  .quiz-choice-item {
-    display: flex; align-items: center; gap: 8px;
-    padding: 8px 10px; background: var(--bg-2);
-    border: 1px solid var(--stroke); border-radius: 8px;
-    transition: all .15s ease;
-  }
+  .quiz-choice-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-2); border: 1px solid var(--stroke); border-radius: 8px; transition: all .15s ease; }
   .quiz-choice-item:hover { border-color: var(--stroke-2); }
   .quiz-choice-item.is-correct { border-color: #10b981; background: rgba(16,185,129,.08); }
   .quiz-choice-item input[type="text"] { flex: 1; padding: 6px 8px; background: transparent; border: none; color: var(--text); font: inherit; font-size: 12px; }
   .quiz-choice-item input[type="text"]:focus { outline: none; }
-  .quiz-choice-item .mark {
-    width: 24px; height: 24px; border-radius: 6px;
-    border: 2px solid #c4c8e0; cursor: pointer;
-    display: grid; place-items: center; font-size: 12px; color: #fff;
-    flex-shrink: 0; transition: all .15s ease;
-  }
+  .quiz-choice-item .mark { width: 24px; height: 24px; border-radius: 6px; border: 2px solid #c4c8e0; cursor: pointer; display: grid; place-items: center; font-size: 12px; color: #fff; flex-shrink: 0; transition: all .15s ease; }
   .quiz-choice-item.is-correct .mark { background: #10b981; border-color: #10b981; }
-  .quiz-choice-item .rm {
-    width: 22px; height: 22px; border-radius: 6px;
-    display: grid; place-items: center; cursor: pointer;
-    color: var(--muted); font-size: 14px; flex-shrink: 0;
-  }
+  .quiz-choice-item .rm { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; cursor: pointer; color: var(--muted); font-size: 14px; flex-shrink: 0; }
   .quiz-choice-item .rm:hover { background: rgba(239,68,68,.2); color: #ff8a8a; }
 
   .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-  .type-card {
-    padding: 12px 10px; background: var(--bg-2);
-    border: 1.5px solid var(--stroke); border-radius: 10px;
-    cursor: pointer; transition: all .15s ease; text-align: center;
-  }
+  .type-card { padding: 12px 10px; background: var(--bg-2); border: 1.5px solid var(--stroke); border-radius: 10px; cursor: pointer; transition: all .15s ease; text-align: center; }
   .type-card:hover { background: var(--bg-3); border-color: rgba(139,92,246,.5); }
-  .type-card.active { border-color: var(--accent); background: linear-gradient(135deg, rgba(139,92,246,.15), rgba(99,102,241,.08)); }
   .type-card .ic { font-size: 20px; margin-bottom: 4px; }
   .type-card .nm { font-size: 11px; font-weight: 600; color: var(--text); }
 
-  .modal-bg { position: fixed; inset: 0; background: rgba(5,7,14,.8); backdrop-filter: blur(8px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 40px; animation: fadeIn .2s ease; }
-  .modal-bg.show { display: flex; }
-  .modal { background: var(--bg-1); border: 1px solid var(--stroke-2); border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,.7); display: flex; flex-direction: column; overflow: hidden; animation: popIn .25s cubic-bezier(.2,.9,.3,1.2); }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes popIn { from { transform: scale(.95) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+  .anim-type-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .anim-type-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg-2); border: 1.5px solid var(--stroke); border-radius: 8px; cursor: pointer; transition: all .15s ease; }
+  .anim-type-item:hover { background: var(--bg-3); border-color: var(--stroke-2); }
+  .anim-type-item.active { border-color: var(--accent); background: linear-gradient(135deg, rgba(139,92,246,.12), rgba(99,102,241,.06)); }
+  .anim-type-item .ic { font-size: 18px; }
+  .anim-type-item .nm { font-size: 12px; font-weight: 600; }
+  .anim-type-item .dsc { font-size: 10px; color: var(--muted); }
 
+  .effect-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .effect-card { padding: 8px 6px; background: var(--bg-2); border: 1.5px solid var(--stroke); border-radius: 8px; cursor: pointer; transition: all .15s ease; text-align: center; }
+  .effect-card:hover { background: var(--bg-3); border-color: rgba(139,92,246,.5); }
+  .effect-card.active { border-color: var(--accent); background: rgba(139,92,246,.15); }
+  .effect-card .ic { font-size: 16px; margin-bottom: 2px; }
+  .effect-card .nm { font-size: 9px; font-weight: 600; color: var(--text); }
+
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .action-card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 8px; background: var(--bg-2); border: 1.5px solid var(--stroke); border-radius: 10px; cursor: pointer; transition: all .15s ease; text-align: center; }
+  .action-card:hover { background: var(--bg-3); border-color: rgba(139,92,246,.5); transform: translateY(-2px); }
+  .action-card .ic { font-size: 20px; }
+  .action-card .nm { font-size: 10px; font-weight: 600; color: var(--text); }
+  .action-card .dsc { font-size: 9px; color: var(--muted); }
+
+  .action-config { padding: 12px; background: rgba(139,92,246,.06); border: 1px solid rgba(139,92,246,.2); border-radius: 10px; margin-bottom: 12px; }
+
+  .modal-bg { position: fixed; inset: 0; background: rgba(5,7,14,.8); backdrop-filter: blur(8px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 40px; }
+  .modal-bg.show { display: flex; }
+  .modal { background: var(--bg-1); border: 1px solid var(--stroke-2); border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,.7); display: flex; flex-direction: column; overflow: hidden; }
   .modal-head { padding: 16px 20px; border-bottom: 1px solid var(--stroke); display: flex; align-items: center; gap: 12px; }
   .modal-head h2 { font-size: 15px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .modal-body { flex: 1; overflow: hidden; position: relative; }
@@ -268,18 +266,28 @@
   .preview-el img, .preview-el video { width: 100%; height: 100%; object-fit: contain; }
   .preview-el iframe { width: 100%; height: 100%; border: none; }
   .preview-el .txt { padding: 6px; width: 100%; height: 100%; overflow: hidden; font-size: 18px; white-space: pre-wrap; color: #222; }
-  .preview-el .btn-shape { background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 600; cursor: pointer; transition: transform .1s ease; }
-  .preview-el .btn-shape:active { transform: scale(.97); }
+  .preview-el .btn-shape { background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 600; cursor: pointer; }
   .preview-nav { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
 
-  /* Плитки выбора способа добавления игры */
+  /* ===== СТИЛИ ДЛЯ PREVIEW QUIZ ===== */
+  .pq { width: 100%; height: 100%; background: linear-gradient(135deg, #fff, #f8f9ff); border: 2px solid #e0e4f5; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #222; overflow: hidden; }
+  .pq-type { font-size: 10px; font-weight: 700; letter-spacing: .8px; color: #8b5cf6; text-transform: uppercase; }
+  .pq-q { font-weight: 600; font-size: 15px; line-height: 1.4; }
+  .pq-opts { display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; }
+  .pq-opt { padding: 8px 12px; background: #fff; border: 1.5px solid #e0e4f5; border-radius: 8px; cursor: pointer; transition: all .15s ease; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .pq-opt:hover { border-color: #8b5cf6; background: #f5f3ff; }
+  .pq-opt.picked { border-color: #8b5cf6; background: #ede9fe; }
+  .pq-opt.correct { border-color: #10b981; background: #ecfdf5; }
+  .pq-opt.wrong { border-color: #ef4444; background: #fef2f2; }
+  .pq-input { padding: 8px 12px; border: 1.5px solid #e0e4f5; border-radius: 8px; font-size: 13px; font-family: inherit; }
+  .pq-input:focus { outline: none; border-color: #8b5cf6; }
+  .pq-btn { padding: 8px 16px; background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; align-self: flex-start; }
+  .pq-fb { font-size: 12px; font-weight: 600; }
+  .pq-fb.ok { color: #10b981; }
+  .pq-fb.no { color: #ef4444; }
+
   .game-choices { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 20px; }
-  .game-choice {
-    display: flex; align-items: center; gap: 14px;
-    padding: 16px; background: var(--bg-2);
-    border: 1px solid var(--stroke); border-radius: 12px;
-    cursor: pointer; transition: all .15s ease; text-align: left;
-  }
+  .game-choice { display: flex; align-items: center; gap: 14px; padding: 16px; background: var(--bg-2); border: 1px solid var(--stroke); border-radius: 12px; cursor: pointer; transition: all .15s ease; text-align: left; }
   .game-choice:hover { background: var(--bg-3); border-color: rgba(139,92,246,.5); transform: translateX(4px); }
   .game-choice .ic { font-size: 28px; width: 44px; text-align: center; }
   .game-choice .ttl { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
@@ -287,58 +295,66 @@
 
   .toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 20px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border-radius: 10px; font-size: 13px; font-weight: 500; box-shadow: 0 12px 40px rgba(139,92,246,.4); opacity: 0; transform: translateY(20px); transition: all .25s ease; pointer-events: none; z-index: 2000; max-width: 340px; }
   .toast.show { opacity: 1; transform: translateY(0); }
-  .toast.err { background: linear-gradient(135deg, #ef4444, #b91c1c); box-shadow: 0 12px 40px rgba(239,68,68,.4); }
-  .toast.ok  { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 12px 40px rgba(16,185,129,.4); }
+  .toast.err { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+  .toast.ok  { background: linear-gradient(135deg, #10b981, #059669); }
 
-  @keyframes animFade { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes animSlideLeft { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-  @keyframes animSlideRight { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-  @keyframes animSlideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  @keyframes animZoom { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  @keyframes animFlip { from { transform: perspective(1000px) rotateY(90deg); opacity: 0; } to { transform: perspective(1000px) rotateY(0); opacity: 1; } }
-  @keyframes animNone { from { opacity: 1; } to { opacity: 1; } }
-  .anim-fade { animation: animFade var(--dur, 500ms) ease both; }
-  .anim-slide-left { animation: animSlideLeft var(--dur, 500ms) cubic-bezier(.2,.9,.3,1) both; }
-  .anim-slide-right { animation: animSlideRight var(--dur, 500ms) cubic-bezier(.2,.9,.3,1) both; }
-  .anim-slide-up { animation: animSlideUp var(--dur, 500ms) cubic-bezier(.2,.9,.3,1) both; }
-  .anim-zoom { animation: animZoom var(--dur, 500ms) cubic-bezier(.2,.9,.3,1.2) both; }
-  .anim-flip { animation: animFlip var(--dur, 600ms) ease both; }
-  .anim-none { animation: animNone var(--dur, 0ms) both; }
+  /* ===== АНИМАЦИИ ЭЛЕМЕНТОВ ===== */
+  @keyframes elFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes elSlideLeft { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes elSlideRight { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes elSlideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes elSlideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes elZoomIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes elZoomOut { from { transform: scale(3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes elBounce { 0% { transform: scale(.3); opacity: 0; } 50% { transform: scale(1.05); opacity: 1; } 70% { transform: scale(.9); } 100% { transform: scale(1); } }
+  @keyframes elRotate { from { transform: rotate(-180deg) scale(0); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
+  @keyframes elFlip { from { transform: perspective(1000px) rotateY(90deg); opacity: 0; } to { transform: perspective(1000px) rotateY(0); opacity: 1; } }
+  @keyframes elPulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  @keyframes elShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  @keyframes elWobble { 0% { transform: rotate(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } 100% { transform: rotate(0); } }
+  @keyframes elTada { 0% { transform: scale(1) rotate(0); } 10%,20% { transform: scale(.9) rotate(-3deg); } 30%,50%,70%,90% { transform: scale(1.1) rotate(3deg); } 40%,60%,80% { transform: scale(1.1) rotate(-3deg); } 100% { transform: scale(1) rotate(0); } }
 
-  /* ===== ПРОСМОТР QUIZ ===== */
-  .preview-quiz {
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, #fff, #f8f9ff);
-    border: 2px solid #e0e4f5; border-radius: 12px;
-    padding: 16px; display: flex; flex-direction: column; gap: 10px;
-    font-size: 14px; color: #222; overflow: hidden;
-  }
-  .preview-quiz .pq-type { font-size: 10px; font-weight: 700; letter-spacing: .8px; color: #8b5cf6; text-transform: uppercase; }
-  .preview-quiz .pq-q { font-weight: 600; font-size: 15px; line-height: 1.4; }
-  .preview-quiz .pq-opts { display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; }
-  .preview-quiz .pq-opt {
-    padding: 8px 12px; background: #fff;
-    border: 1.5px solid #e0e4f5; border-radius: 8px;
-    cursor: pointer; transition: all .15s ease;
-    font-size: 13px; display: flex; align-items: center; gap: 8px;
-  }
-  .preview-quiz .pq-opt:hover { border-color: #8b5cf6; background: #f5f3ff; }
-  .preview-quiz .pq-opt.picked { border-color: #8b5cf6; background: #ede9fe; }
-  .preview-quiz .pq-opt.correct { border-color: #10b981; background: #ecfdf5; }
-  .preview-quiz .pq-opt.wrong { border-color: #ef4444; background: #fef2f2; }
-  .preview-quiz .pq-input {
-    padding: 8px 12px; border: 1.5px solid #e0e4f5; border-radius: 8px;
-    font-size: 13px; font-family: inherit;
-  }
-  .preview-quiz .pq-input:focus { outline: none; border-color: #8b5cf6; }
-  .preview-quiz .pq-btn {
-    padding: 8px 16px; background: linear-gradient(135deg, #8b5cf6, #6366f1);
-    color: #fff; border: none; border-radius: 8px; cursor: pointer;
-    font-size: 13px; font-weight: 600; align-self: flex-start;
-  }
-  .preview-quiz .pq-fb { font-size: 12px; font-weight: 600; }
-  .preview-quiz .pq-fb.ok { color: #10b981; }
-  .preview-quiz .pq-fb.no { color: #ef4444; }
+  .anim-entrance { animation: elFade var(--anim-dur, 500ms) ease both; }
+  .anim-entrance[data-effect="slide-left"] { animation-name: elSlideLeft; }
+  .anim-entrance[data-effect="slide-right"] { animation-name: elSlideRight; }
+  .anim-entrance[data-effect="slide-up"] { animation-name: elSlideUp; }
+  .anim-entrance[data-effect="slide-down"] { animation-name: elSlideDown; }
+  .anim-entrance[data-effect="zoom-in"] { animation-name: elZoomIn; }
+  .anim-entrance[data-effect="zoom-out"] { animation-name: elZoomOut; }
+  .anim-entrance[data-effect="bounce"] { animation-name: elBounce; }
+  .anim-entrance[data-effect="rotate"] { animation-name: elRotate; }
+  .anim-entrance[data-effect="flip"] { animation-name: elFlip; }
+  .anim-entrance[data-effect="pulse"] { animation-name: elPulse; }
+  .anim-entrance[data-effect="shake"] { animation-name: elShake; }
+  .anim-entrance[data-effect="wobble"] { animation-name: elWobble; }
+  .anim-entrance[data-effect="tada"] { animation-name: elTada; }
+
+  .anim-continuous { animation: elPulse var(--anim-dur, 2000ms) ease-in-out infinite; }
+  .anim-continuous[data-effect="shake"] { animation-name: elShake; }
+  .anim-continuous[data-effect="wobble"] { animation-name: elWobble; }
+  .anim-continuous[data-effect="bounce"] { animation-name: elBounce; }
+
+  .anim-hover:hover { animation: elPulse var(--anim-dur, 500ms) ease; }
+  .anim-hover[data-effect="zoom-in"]:hover { animation-name: elZoomIn; }
+  .anim-hover[data-effect="bounce"]:hover { animation-name: elBounce; }
+  .anim-hover[data-effect="shake"]:hover { animation-name: elShake; }
+  .anim-hover[data-effect="wobble"]:hover { animation-name: elWobble; }
+  .anim-hover[data-effect="tada"]:hover { animation-name: elTada; }
+
+  .anim-click:active { animation: elPulse var(--anim-dur, 300ms) ease; }
+
+  /* ===== ЭФФЕКТЫ ===== */
+  .surprise-confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+  .confetti-piece { position: absolute; width: 10px; height: 10px; animation: confettiFall 2s ease-in forwards; }
+  @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+  .surprise-balloons { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+  .balloon { position: absolute; bottom: -60px; font-size: 40px; animation: balloonUp 3s ease-in forwards; }
+  @keyframes balloonUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-120vh); opacity: .5; } }
+  .surprise-hearts { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+  .heart { position: absolute; font-size: 30px; animation: heartUp 2.5s ease-in forwards; }
+  @keyframes heartUp { 0% { transform: translateY(0) scale(0); opacity: 1; } 30% { transform: translateY(-30vh) scale(1.2); } 100% { transform: translateY(-100vh) scale(.5); opacity: 0; } }
+  .surprise-applause { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+  .surprise-ohno { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
 </style>
 </head>
 <body>
@@ -368,11 +384,26 @@
 
   <aside class="right">
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('elements')">🧩 Элементы</button>
-      <button class="tab" onclick="switchTab('quiz')">❓ Вопросы</button>
-      <button class="tab" onclick="switchTab('editors')">🕹 Редакторы</button>
-      <button class="tab" onclick="switchTab('props')">⚙ Свойства</button>
+      <button class="tab active" data-tab="elements" onclick="switchTab('elements')">
+        <span class="tab-ic">🧩</span><span class="tab-lb">Элементы</span>
+      </button>
+      <button class="tab" data-tab="quiz" onclick="switchTab('quiz')">
+        <span class="tab-ic">❓</span><span class="tab-lb">Вопросы</span>
+      </button>
+      <button class="tab" data-tab="anim" onclick="switchTab('anim')">
+        <span class="tab-ic">✨</span><span class="tab-lb">Анимации</span>
+      </button>
+      <button class="tab" data-tab="actions" onclick="switchTab('actions')">
+        <span class="tab-ic">🎯</span><span class="tab-lb">Действия</span>
+      </button>
+      <button class="tab" data-tab="editors" onclick="switchTab('editors')">
+        <span class="tab-ic">🕹</span><span class="tab-lb">Редакторы</span>
+      </button>
+      <button class="tab" data-tab="props" onclick="switchTab('props')">
+        <span class="tab-ic">⚙</span><span class="tab-lb">Свойства</span>
+      </button>
     </div>
+
     <div class="tab-content">
       <div class="tab-pane active" id="tab-elements">
         <div class="panel-title">Перетащите на слайд</div>
@@ -381,7 +412,7 @@
             <div class="palette-icon">📝</div><div class="palette-label">Текст</div>
           </div>
           <div class="palette-item" draggable="true" data-type="image" onclick="addElementAtCenter('image')">
-            <div class="palette-icon">🖼</div><div class="palette-label">Картинка / GIF</div>
+            <div class="palette-icon">🖼</div><div class="palette-label">Картинка</div>
           </div>
           <div class="palette-item" draggable="true" data-type="audio" onclick="addElementAtCenter('audio')">
             <div class="palette-icon">🔊</div><div class="palette-label">Аудио</div>
@@ -404,32 +435,27 @@
 
       <div class="tab-pane" id="tab-quiz">
         <div class="panel-title">Добавить вопрос</div>
-        <div class="field-hint" style="margin-bottom:12px">
-          Выберите тип вопроса — он появится на слайде и откроется панель настройки.
-        </div>
+        <div class="field-hint" style="margin-bottom:12px">Выберите тип вопроса — он появится на слайде.</div>
         <div class="type-grid">
-          <div class="type-card" onclick="addQuizElement('single')">
-            <div class="ic">⭕</div><div class="nm">Один вариант</div>
-          </div>
-          <div class="type-card" onclick="addQuizElement('multiple')">
-            <div class="ic">☑️</div><div class="nm">Несколько</div>
-          </div>
-          <div class="type-card" onclick="addQuizElement('truefalse')">
-            <div class="ic">⚖️</div><div class="nm">Верно / Неверно</div>
-          </div>
-          <div class="type-card" onclick="addQuizElement('short')">
-            <div class="ic">✏️</div><div class="nm">Короткий ответ</div>
-          </div>
-          <div class="type-card" onclick="addQuizElement('open')">
-            <div class="ic">💬</div><div class="nm">Открытый ответ</div>
-          </div>
-          <div class="type-card" onclick="addQuizElement('survey')">
-            <div class="ic">📊</div><div class="nm">Опрос</div>
-          </div>
+          <div class="type-card" onclick="addQuizElement('single')"><div class="ic">⭕</div><div class="nm">Один вариант</div></div>
+          <div class="type-card" onclick="addQuizElement('multiple')"><div class="ic">☑️</div><div class="nm">Несколько</div></div>
+          <div class="type-card" onclick="addQuizElement('truefalse')"><div class="ic">⚖️</div><div class="nm">Верно / Неверно</div></div>
+          <div class="type-card" onclick="addQuizElement('short')"><div class="ic">✏️</div><div class="nm">Короткий ответ</div></div>
+          <div class="type-card" onclick="addQuizElement('open')"><div class="ic">💬</div><div class="nm">Открытый ответ</div></div>
+          <div class="type-card" onclick="addQuizElement('survey')"><div class="ic">📊</div><div class="nm">Опрос</div></div>
         </div>
-        <div class="field-hint">
-          Настройка вопроса — в правой панели «Свойства» после добавления.
-        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-anim">
+        <div class="panel-title">✨ Анимация элемента</div>
+        <div class="field-hint" style="margin-bottom:12px">Выберите элемент на слайде, затем тип анимации.</div>
+        <div id="animPanel"><div class="empty-hint">Выберите элемент на слайде.</div></div>
+      </div>
+
+      <div class="tab-pane" id="tab-actions">
+        <div class="panel-title">🎯 Действия элемента</div>
+        <div class="field-hint" style="margin-bottom:12px">Что происходит при клике или наведении.</div>
+        <div id="actionsPanel"><div class="empty-hint">Выберите элемент на слайде.</div></div>
       </div>
 
       <div class="tab-pane" id="tab-editors">
@@ -440,8 +466,7 @@
         <div id="editorsList"></div>
         <div class="empty-hint" id="editorsEmpty" style="display:none">
           Здесь появятся ваши редакторы.<br><br>
-          Нажмите <b>＋</b> и укажите ссылку на редактор<br>
-          (например, с GitHub Pages).
+          Нажмите <b>＋</b> и укажите ссылку на редактор (например, с GitHub Pages).
         </div>
       </div>
 
@@ -452,7 +477,6 @@
   </aside>
 </div>
 
-<!-- ========== МОДАЛКА: РЕДАКТОР ========== -->
 <div class="modal-bg" id="editorModal">
   <div class="modal">
     <div class="modal-head">
@@ -470,7 +494,6 @@
   </div>
 </div>
 
-<!-- ========== МОДАЛКА: ВЫБОР СПОСОБА ДОБАВЛЕНИЯ ИГРЫ ========== -->
 <div class="modal-bg" id="gamePickerModal">
   <div class="modal" style="width:520px">
     <div class="modal-head">
@@ -481,35 +504,25 @@
     <div class="game-choices">
       <div class="game-choice" onclick="pickHTMLFile()">
         <div class="ic">📁</div>
-        <div>
-          <div class="ttl">Выбрать HTML-файл с компьютера</div>
-          <div class="sub">Если редактор сохранил игру как файл на ваш компьютер</div>
-        </div>
+        <div><div class="ttl">Выбрать HTML-файл с компьютера</div><div class="sub">Если редактор сохранил игру как файл</div></div>
       </div>
       <div class="game-choice" onclick="pickURLLink()">
         <div class="ic">🔗</div>
-        <div>
-          <div class="ttl">Вставить ссылку на игру</div>
-          <div class="sub">Если игра уже опубликована (например, на GitHub Pages)</div>
-        </div>
+        <div><div class="ttl">Вставить ссылку на игру</div><div class="sub">Если игра уже опубликована (GitHub Pages)</div></div>
       </div>
       <div class="game-choice" onclick="pickHTMLCode()">
         <div class="ic">📋</div>
-        <div>
-          <div class="ttl">Вставить HTML-код игры</div>
-          <div class="sub">Если редактор даёт «скопировать код»</div>
-        </div>
+        <div><div class="ttl">Вставить HTML-код игры</div><div class="sub">Если редактор даёт «скопировать код»</div></div>
       </div>
     </div>
     <div class="modal-foot" style="border-top:none">
       <div class="field-hint" style="flex:1;text-align:left;margin:0">
-        💡 Можно также <b>просто перетащить HTML-файл</b> мышкой прямо на слайд.
+        💡 Можно также <b>перетащить HTML-файл</b> мышкой прямо на слайд.
       </div>
     </div>
   </div>
 </div>
 
-<!-- ========== МОДАЛКА: ПРЕДПРОСМОТР ========== -->
 <div class="modal-bg" id="previewModal">
   <div class="modal">
     <div class="modal-head">
@@ -530,7 +543,6 @@
   </div>
 </div>
 
-<!-- ========== МОДАЛКА: ДОБАВИТЬ РЕДАКТОР ========== -->
 <div class="modal-bg" id="addEditorModal">
   <div class="modal" style="width:500px">
     <div class="modal-head">
@@ -545,7 +557,6 @@
       <div class="field">
         <label>Ссылка на редактор (URL)</label>
         <input id="newEditorUrl" placeholder="https://ваш-логин.github.io/редактор/">
-        <div class="field-hint">Ссылка должна открывать рабочий редактор в браузере.</div>
       </div>
     </div>
     <div class="modal-foot">
@@ -560,6 +571,7 @@
 <script>
 /* ================= СОСТОЯНИЕ ================= */
 const STAGE_W = 960, STAGE_H = 540;
+const TAB_NAMES = ['elements','quiz','anim','actions','editors','props'];
 
 const DEFAULT_PROJECT = {
   slides: [{
@@ -595,12 +607,16 @@ function toast(msg, kind) {
 
 /* ================= ВКЛАДКИ ================= */
 function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', ['elements','quiz','editors','props'][i] === name);
+  if (!TAB_NAMES.includes(name)) return;
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === name);
   });
   document.querySelectorAll('.tab-pane').forEach(p => {
     p.classList.toggle('active', p.id === 'tab-' + name);
   });
+  if (name === 'anim') renderAnimPanel();
+  if (name === 'actions') renderActionsPanel();
+  if (name === 'props') renderProps();
 }
 
 /* ================= СЛАЙДЫ ================= */
@@ -626,7 +642,7 @@ function deleteSlide(i, e) {
 }
 function selectSlide(i) { project.current = i; selected = null; render(); save(); }
 
-/* ================= ЭЛЕМЕНТЫ ================= */
+/* ================= ДЕФОЛТЫ ================= */
 const QUIZ_DEFAULTS = {
   single:    { w: 420, h: 260, quizType: 'single',    question: 'Ваш вопрос?', choices: [ {text:'Вариант 1', correct:true}, {text:'Вариант 2', correct:false}, {text:'Вариант 3', correct:false} ], feedbackOk: 'Верно!', feedbackNo: 'Попробуйте ещё', timer: 0, action: 'none', actionSlide: 0 },
   multiple:  { w: 420, h: 280, quizType: 'multiple',  question: 'Выберите все верные ответы', choices: [ {text:'Вариант 1', correct:true}, {text:'Вариант 2', correct:true}, {text:'Вариант 3', correct:false} ], feedbackOk: 'Верно!', feedbackNo: 'Попробуйте ещё', timer: 0, action: 'none', actionSlide: 0 },
@@ -645,29 +661,38 @@ const DEFAULTS = {
   button: { w: 180, h: 55,  text: 'Далее', toSlide: 1 }
 };
 
+const DEFAULT_ANIM = { type: 'none', effect: 'fade', direction: 'in-place', delay: 0, duration: 500 };
+
+/* ================= ЭЛЕМЕНТЫ ================= */
 function addElementAtCenter(type) {
   const d = DEFAULTS[type];
   addElement(type, Math.round((STAGE_W - d.w) / 2), Math.round((STAGE_H - d.h) / 2));
 }
 function addElement(type, x, y) {
   const d = DEFAULTS[type];
-  const el = { id: uid(), type, x, y, ...JSON.parse(JSON.stringify(d)) };
+  const el = {
+    id: uid(), type, x, y,
+    ...JSON.parse(JSON.stringify(d)),
+    animation: JSON.parse(JSON.stringify(DEFAULT_ANIM)),
+    actions: []
+  };
   project.slides[project.current].elements.push(el);
   selected = el.id;
-  switchTab('props');
-  render(); save();
+  render(); switchTab('props'); save();
 }
 
 function addQuizElement(quizType) {
   const d = QUIZ_DEFAULTS[quizType];
   const el = {
-    id: uid(), type: 'quiz', x: Math.round((STAGE_W - d.w) / 2), y: Math.round((STAGE_H - d.h) / 2),
-    ...JSON.parse(JSON.stringify(d))
+    id: uid(), type: 'quiz',
+    x: Math.round((STAGE_W - d.w) / 2), y: Math.round((STAGE_H - d.h) / 2),
+    ...JSON.parse(JSON.stringify(d)),
+    animation: JSON.parse(JSON.stringify(DEFAULT_ANIM)),
+    actions: []
   };
   project.slides[project.current].elements.push(el);
   selected = el.id;
-  switchTab('props');
-  render(); save();
+  render(); switchTab('props'); save();
   toast('Вопрос добавлен на слайд', 'ok');
 }
 
@@ -709,10 +734,7 @@ function setupStageDrop() {
 
     if (e.dataTransfer.files && e.dataTransfer.files.length) {
       const file = e.dataTransfer.files[0];
-      if (!file.name.match(/\.html?$/i)) {
-        toast('Перетащите HTML-файл игры (.html)', 'err');
-        return;
-      }
+      if (!file.name.match(/\.html?$/i)) return toast('Перетащите HTML-файл игры (.html)', 'err');
       const x = Math.max(0, e.clientX - rect.left - 100);
       const y = Math.max(0, e.clientY - rect.top - 60);
       const reader = new FileReader();
@@ -721,11 +743,13 @@ function setupStageDrop() {
         const el = {
           id: uid(), type: 'iframe',
           x: Math.round(x), y: Math.round(y), w: 520, h: 360,
-          src: '', srcdoc: ev.target.result, interactive: false
+          src: '', srcdoc: ev.target.result, interactive: false,
+          animation: JSON.parse(JSON.stringify(DEFAULT_ANIM)),
+          actions: []
         };
         s.elements.push(el);
         selected = el.id;
-        renderStage(); renderProps(); save(); switchTab('props');
+        render(); switchTab('props'); save();
         toast('Игра добавлена на слайд', 'ok');
       };
       reader.readAsText(file);
@@ -744,10 +768,14 @@ function setupStageDrop() {
 function render() {
   renderSlidesList();
   renderStage();
-  renderProps();
   renderEditors();
+  const activeTab = document.querySelector('.tab.active')?.dataset.tab;
+  if (activeTab === 'props') renderProps();
+  if (activeTab === 'anim') renderAnimPanel();
+  if (activeTab === 'actions') renderActionsPanel();
   save();
 }
+
 function renderSlidesList() {
   const box = document.getElementById('slidesList');
   box.innerHTML = '';
@@ -766,11 +794,13 @@ function renderSlidesList() {
     box.appendChild(d);
   });
 }
+
 function transitionLabel(t) {
   if (!t) return 'без анимации';
   const labels = { none:'без', fade:'fade', 'slide-left':'slide ←', 'slide-right':'slide →', 'slide-up':'slide ↑', zoom:'zoom', flip:'flip', custom:'своя' };
   return labels[t.type] || 'анимация';
 }
+
 function renderStage() {
   const s = project.slides[project.current];
   const stage = document.getElementById('stage');
@@ -779,47 +809,47 @@ function renderStage() {
   stage.style.background = s.bg;
   stage.innerHTML = '';
   s.elements.forEach(el => stage.appendChild(renderElement(el)));
-  stage.onmousedown = e => { if (e.target === stage) { selected = null; renderStageSelection(); renderProps(); } };
+  stage.onmousedown = e => {
+    if (e.target === stage) { selected = null; renderStageSelection(); renderProps(); }
+  };
   renderStageSelection();
 }
+
 function renderStageSelection() {
   document.querySelectorAll('#stage .el').forEach(n => n.classList.toggle('selected', n.dataset.id === selected));
 }
 
-/* --- Отрисовка QUIZ на слайде --- */
+function applyAnimation(el, node) {
+  if (!el.animation || el.animation.type === 'none') return;
+  const anim = el.animation;
+  node.style.setProperty('--anim-dur', (anim.duration || 500) + 'ms');
+  node.style.animationDelay = (anim.delay || 0) + 'ms';
+  node.setAttribute('data-effect', anim.effect || 'fade');
+  if (anim.type === 'entrance') node.classList.add('anim-entrance');
+  else if (anim.type === 'continuous') node.classList.add('anim-continuous');
+  else if (anim.type === 'hover') node.classList.add('anim-hover');
+  else if (anim.type === 'click') node.classList.add('anim-click');
+}
+
 function renderQuizEl(el) {
   const wrap = document.createElement('div');
   wrap.className = 'quiz-block';
+  const typeLabelMap = { single:'Один вариант', multiple:'Несколько', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' };
+  const tl = typeLabelMap[el.quizType] || 'Вопрос';
 
-  let typeLabel = { single:'Один вариант', multiple:'Несколько', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' }[el.quizType] || 'Вопрос';
-
-  let html = `<div class="quiz-label">❓ ${typeLabel}</div><div class="quiz-q">${esc(el.question)}</div>`;
+  let html = `<div class="quiz-label">❓ ${tl}</div><div class="quiz-q">${esc(el.question)}</div>`;
 
   if (el.quizType === 'short') {
-    html += `<div style="padding:8px;background:#f5f6ff;border-radius:6px;font-size:12px;color:#666">
-      <b>Правильный ответ:</b> ${esc(el.answer || '—')}
-    </div>`;
+    html += `<div style="padding:8px;background:#f5f6ff;border-radius:6px;font-size:12px;color:#666"><b>Правильный ответ:</b> ${esc(el.answer || '—')}</div>`;
   } else if (el.quizType === 'open') {
     html += `<div style="padding:8px;background:#f5f6ff;border-radius:6px;font-size:12px;color:#666">Ученик введёт свой ответ</div>`;
   } else if (el.choices && el.choices.length) {
     html += '<div class="quiz-opts">';
     el.choices.forEach(c => {
-      const mark = c.correct ? '✓' : '';
-      html += `<div class="quiz-opt ${c.correct ? 'correct' : ''}">
-        <div class="dot">${mark}</div>
-        <span>${esc(c.text)}</span>
-      </div>`;
+      html += `<div class="quiz-opt ${c.correct ? 'correct' : ''}"><div class="dot">${c.correct ? '✓' : ''}</div><span>${esc(c.text)}</span></div>`;
     });
     html += '</div>';
   }
-
-  if (el.timer && el.timer > 0) {
-    html += `<div style="font-size:11px;color:#c47">⏱ Таймер: ${el.timer} сек</div>`;
-  }
-  if (el.action && el.action !== 'none') {
-    html += `<div style="font-size:11px;color:#666">→ после ответа: ${el.action === 'goto' ? 'слайд ' + (el.actionSlide + 1) : el.action}</div>`;
-  }
-
   wrap.innerHTML = html;
   return wrap;
 }
@@ -830,6 +860,15 @@ function renderElement(el) {
   if (el.interactive) d.classList.add('interactive');
   d.dataset.id = el.id;
   d.style.cssText = `left:${el.x}px;top:${el.y}px;width:${el.w}px;height:${el.h}px;`;
+
+  if (el.type === 'quiz') {
+    d.appendChild(renderQuizEl(el));
+    d.appendChild(Object.assign(document.createElement('div'), { className: 'resize' }));
+    bindElementDrag(d, el);
+    applyAnimation(el, d);
+    bindActions(el, d);
+    return d;
+  }
 
   let inner = '';
   if (el.type === 'image') inner = el.src ? `<img src="${esc(el.src)}">` : `<div class="empty-slot">🖼<br>вставьте ссылку на картинку</div>`;
@@ -842,30 +881,110 @@ function renderElement(el) {
     else frame = `<div class="empty-slot">🎮<br>вставьте игру</div>`;
 
     if (el.src || el.srcdoc) {
-      inner = `<div class="iframe-wrap">
-        ${frame}
-        <div class="iframe-overlay"></div>
-        <div class="drag-hint">↕ Тяните мышкой</div>
-        <button class="lock-btn" title="Разблокировать для игры"
-                onclick="event.stopPropagation();toggleInteractive('${el.id}')">🔒</button>
-      </div>`;
+      inner = `<div class="iframe-wrap">${frame}<div class="iframe-overlay"></div><div class="drag-hint">↕ Тяните мышкой</div><button class="lock-btn" title="Разблокировать" onclick="event.stopPropagation();toggleInteractive('${el.id}')">🔒</button></div>`;
     } else {
       inner = frame;
     }
   }
   if (el.type === 'text') inner = `<div class="txt" style="color:${esc(el.color)};font-size:${el.size}px">${esc(el.text)}</div>`;
   if (el.type === 'button') inner = `<div class="btn-shape">${esc(el.text)}</div>`;
-  if (el.type === 'quiz') {
-    d.innerHTML = '';
-    d.appendChild(renderQuizEl(el));
-    d.appendChild(Object.assign(document.createElement('div'), { className: 'resize' }));
-    bindElementDrag(d, el);
-    return d;
-  }
 
   d.innerHTML = inner + `<div class="resize"></div>`;
   bindElementDrag(d, el);
+  applyAnimation(el, d);
+  bindActions(el, d);
   return d;
+}
+
+function bindActions(el, node) {
+  if (!el.actions || el.actions.length === 0) return;
+  el.actions.forEach(act => {
+    const handler = (e) => { e.stopPropagation(); executeAction(act, el); };
+    if (act.trigger === 'click') node.addEventListener('click', handler);
+    if (act.trigger === 'hover') node.addEventListener('mouseenter', handler);
+  });
+}
+
+function executeAction(act, el) {
+  const type = act.action;
+  if (type === 'show') {
+    const t = findElById(act.targetId);
+    if (t) { const n = document.querySelector(`#stage .el[data-id="${t.id}"]`); if (n) n.style.display = 'block'; }
+  }
+  if (type === 'hide') {
+    const t = findElById(act.targetId);
+    if (t) { const n = document.querySelector(`#stage .el[data-id="${t.id}"]`); if (n) n.style.display = 'none'; }
+  }
+  if (type === 'audio' && act.audioUrl) new Audio(act.audioUrl).play().catch(()=>{});
+  if (type === 'effect') playEffect(act.effectType);
+  if (type === 'goto' && act.slideIndex >= 0 && act.slideIndex < project.slides.length) selectSlide(act.slideIndex);
+  if (type === 'link' && act.url) window.open(act.url, '_blank');
+  if (type === 'fullscreen') {
+    const n = document.querySelector(`#stage .el[data-id="${el.id}"]`);
+    if (n?.requestFullscreen) n.requestFullscreen();
+  }
+  if (type === 'window') showModal(act);
+  if (type === 'tooltip') showTooltip(act, el);
+}
+
+function findElById(id) {
+  for (const s of project.slides) { const f = s.elements.find(e => e.id === id); if (f) return f; }
+  return null;
+}
+
+function playEffect(effectType) {
+  const container = document.createElement('div');
+  container.className = 'surprise-' + effectType;
+  document.body.appendChild(container);
+  const emojis = { balloons:'🎈', hearts:'❤️', applause:'👏', ohno:'😱' };
+  if (effectType === 'confetti') {
+    const colors = ['#8b5cf6','#6366f1','#3b82f6','#10b981','#f59e0b','#ef4444'];
+    for (let i = 0; i < 60; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.animationDelay = Math.random() * .5 + 's';
+      p.style.animationDuration = (1.5 + Math.random()) + 's';
+      container.appendChild(p);
+    }
+  } else {
+    const emoji = emojis[effectType] || '✨';
+    const cls = effectType === 'balloons' ? 'balloon' : 'heart';
+    for (let i = 0; i < 20; i++) {
+      const h = document.createElement('div');
+      h.className = cls;
+      h.textContent = emoji;
+      h.style.left = Math.random() * 100 + '%';
+      h.style.animationDelay = Math.random() * 1 + 's';
+      container.appendChild(h);
+    }
+  }
+  setTimeout(() => container.remove(), 4500);
+}
+
+function showModal(act) {
+  const m = document.createElement('div');
+  m.className = 'modal-bg show';
+  m.innerHTML = `<div class="modal" style="width:500px">
+    <div class="modal-head"><h2>${esc(act.modalTitle || 'Информация')}</h2><button class="btn btn-ghost btn-icon" onclick="this.closest('.modal-bg').remove()">✕</button></div>
+    <div style="padding:20px">${act.modalContent || 'Текст окна'}</div>
+  </div>`;
+  document.body.appendChild(m);
+  m.onclick = e => { if (e.target === m) m.remove(); };
+}
+
+function showTooltip(act, el) {
+  const node = document.querySelector(`#stage .el[data-id="${el.id}"]`);
+  if (!node) return;
+  const tip = document.createElement('div');
+  tip.style.cssText = 'position:absolute;background:#1a1f30;color:#fff;padding:8px 12px;border-radius:8px;font-size:12px;z-index:9999;pointer-events:none;box-shadow:0 8px 20px rgba(0,0,0,.4)';
+  tip.textContent = act.tooltipText || 'Подсказка';
+  const r = node.getBoundingClientRect();
+  tip.style.left = r.left + 'px';
+  tip.style.top = (r.top - 40) + 'px';
+  document.body.appendChild(tip);
+  setTimeout(() => tip.remove(), 2500);
 }
 
 function bindElementDrag(d, el) {
@@ -875,10 +994,9 @@ function bindElementDrag(d, el) {
     if (el.type === 'iframe' && e.target.tagName === 'IFRAME' && !el.interactive) return;
     e.stopPropagation();
     selected = el.id;
-    switchTab('props');
     renderStageSelection();
     renderProps();
-
+    switchTab('props');
     const sx = e.clientX, sy = e.clientY, ox = el.x, oy = el.y;
     const move = ev => {
       el.x = Math.max(0, Math.min(STAGE_W - el.w, ox + ev.clientX - sx));
@@ -886,28 +1004,22 @@ function bindElementDrag(d, el) {
       d.style.left = el.x + 'px';
       d.style.top = el.y + 'px';
     };
-    const up = () => {
-      document.removeEventListener('mousemove', move);
-      document.removeEventListener('mouseup', up);
-      save(); renderProps();
-    };
+    const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); save(); renderProps(); };
     document.addEventListener('mousemove', move);
     document.addEventListener('mouseup', up);
   };
 
-  d.querySelector('.resize').onmousedown = e => {
+  const resizeHandle = d.querySelector('.resize');
+  if (resizeHandle) resizeHandle.onmousedown = e => {
     e.stopPropagation();
     const sx = e.clientX, sy = e.clientY, ow = el.w, oh = el.h;
     const move = ev => {
       el.w = Math.max(40, ow + ev.clientX - sx);
       el.h = Math.max(30, oh + ev.clientY - sy);
-      d.style.width = el.w + 'px'; d.style.height = el.h + 'px';
+      d.style.width = el.w + 'px';
+      d.style.height = el.h + 'px';
     };
-    const up = () => {
-      document.removeEventListener('mousemove', move);
-      document.removeEventListener('mouseup', up);
-      save(); renderProps();
-    };
+    const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); save(); renderProps(); };
     document.addEventListener('mousemove', move);
     document.addEventListener('mouseup', up);
   };
@@ -924,6 +1036,216 @@ function toggleInteractive(id) {
   toast(el.interactive ? '🔓 Игра разблокирована' : '🔒 Игра заблокирована', 'ok');
 }
 
+/* ================= ПАНЕЛЬ АНИМАЦИЙ ================= */
+function renderAnimPanel() {
+  const box = document.getElementById('animPanel');
+  const el = project.slides[project.current].elements.find(e => e.id === selected);
+  if (!el) { box.innerHTML = '<div class="empty-hint">Выберите элемент на слайде.</div>'; return; }
+
+  if (!el.animation) el.animation = JSON.parse(JSON.stringify(DEFAULT_ANIM));
+
+  const animTypes = [
+    { id: 'none',       ic: '🚫', nm: 'Без анимации',    dsc: '' },
+    { id: 'entrance',   ic: '⬇️', nm: 'Вход',            dsc: 'При появлении' },
+    { id: 'hover',      ic: '🖱', nm: 'При наведении',   dsc: 'Наведение мыши' },
+    { id: 'click',      ic: '👆', nm: 'При клике',        dsc: 'Клик по элементу' },
+    { id: 'continuous', ic: '🔄', nm: 'Непрерывная',     dsc: 'Повторяется' }
+  ];
+
+  const effects = [
+    { id: 'fade', ic: '💨', nm: 'Fade' },
+    { id: 'slide-left', ic: '⬅️', nm: 'Slide L' },
+    { id: 'slide-right', ic: '➡️', nm: 'Slide R' },
+    { id: 'slide-up', ic: '⬆️', nm: 'Slide U' },
+    { id: 'slide-down', ic: '⬇️', nm: 'Slide D' },
+    { id: 'zoom-in', ic: '🔍', nm: 'Zoom In' },
+    { id: 'zoom-out', ic: '🔎', nm: 'Zoom Out' },
+    { id: 'bounce', ic: '🏀', nm: 'Bounce' },
+    { id: 'rotate', ic: '🔄', nm: 'Rotate' },
+    { id: 'flip', ic: '🃏', nm: 'Flip' },
+    { id: 'pulse', ic: '💓', nm: 'Pulse' },
+    { id: 'shake', ic: '📳', nm: 'Shake' },
+    { id: 'wobble', ic: '🌀', nm: 'Wobble' },
+    { id: 'tada', ic: '🎉', nm: 'Tada' }
+  ];
+
+  let h = `<div style="padding:10px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:8px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:600;color:#c4b5fd">Элемент: ${typeLabel(el.type, el.quizType)}</div>
+  </div>`;
+
+  h += `<div class="panel-title">Тип анимации</div><div class="anim-type-list">`;
+  animTypes.forEach(t => {
+    h += `<div class="anim-type-item ${el.animation.type === t.id ? 'active' : ''}" onclick="setAnimType('${t.id}')">
+      <div class="ic">${t.ic}</div>
+      <div><div class="nm">${t.nm}</div><div class="dsc">${t.dsc}</div></div>
+    </div>`;
+  });
+  h += `</div>`;
+
+  if (el.animation.type !== 'none') {
+    h += `<div class="panel-title">Эффект</div><div class="effect-grid">`;
+    effects.forEach(ef => {
+      h += `<div class="effect-card ${el.animation.effect === ef.id ? 'active' : ''}" onclick="setAnimEffect('${ef.id}')"><div class="ic">${ef.ic}</div><div class="nm">${ef.nm}</div></div>`;
+    });
+    h += `</div>`;
+
+    h += `<div class="panel-title">Настройки</div>`;
+    h += `<div class="field"><label>Задержка (мс)</label><input type="number" min="0" max="5000" step="100" value="${el.animation.delay || 0}" oninput="setAnimProp('delay', +this.value)"></div>`;
+    h += `<div class="field"><label>Длительность (мс)</label><input type="number" min="100" max="4000" step="100" value="${el.animation.duration || 500}" oninput="setAnimProp('duration', +this.value)"></div>`;
+    h += `<button class="btn" style="width:100%;justify-content:center;margin-top:8px" onclick="previewAnim()">▶ Посмотреть анимацию</button>`;
+  }
+  box.innerHTML = h;
+}
+
+function setAnimType(type) {
+  const el = project.slides[project.current].elements.find(e => e.id === selected);
+  if (!el) return;
+  if (!el.animation) el.animation = JSON.parse(JSON.stringify(DEFAULT_ANIM));
+  el.animation.type = type;
+  renderStage(); renderAnimPanel(); save();
+}
+function setAnimEffect(effect) {
+  const el = project.slides[project.current].elements.find(e => e.id === selected);
+  if (!el) return;
+  el.animation.effect = effect;
+  renderStage(); renderAnimPanel(); save();
+}
+function setAnimProp(key, val) {
+  const el = project.slides[project.current].elements.find(e => e.id === selected);
+  if (!el) return;
+  el.animation[key] = val;
+  save();
+}
+function previewAnim() { renderStage(); toast('Анимация запущена', 'ok'); }
+
+/* ================= ПАНЕЛЬ ДЕЙСТВИЙ ================= */
+function renderActionsPanel() {
+  const box = document.getElementById('actionsPanel');
+  const el = project.slides[project.current].elements.find(e => e.id === selected);
+  if (!el) { box.innerHTML = '<div class="empty-hint">Выберите элемент на слайде.</div>'; return; }
+  if (!el.actions) el.actions = [];
+
+  const actionTypes = [
+    { id: 'show', ic: '👁', nm: 'Показать', dsc: 'Показать элемент' },
+    { id: 'hide', ic: '🙈', nm: 'Скрыть', dsc: 'Скрыть элемент' },
+    { id: 'window', ic: '🪟', nm: 'Окно', dsc: 'Открыть окно' },
+    { id: 'tooltip', ic: '💬', nm: 'Подсказка', dsc: 'Показать подсказку' },
+    { id: 'audio', ic: '🔊', nm: 'Аудио', dsc: 'Воспроизвести' },
+    { id: 'effect', ic: '🎉', nm: 'Эффект', dsc: 'Конфетти, шарики' },
+    { id: 'goto', ic: '📄', nm: 'Переход', dsc: 'На другой слайд' },
+    { id: 'link', ic: '🔗', nm: 'Ссылка', dsc: 'Открыть ссылку' },
+    { id: 'fullscreen', ic: '⛶', nm: 'Полный экран', dsc: 'Развернуть' }
+  ];
+
+  let h = `<div style="padding:10px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:8px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:600;color:#c4b5fd">Элемент: ${typeLabel(el.type, el.quizType)}</div>
+    <div style="font-size:10px;color:var(--muted);margin-top:2px">Действий: ${el.actions.length}</div>
+  </div>`;
+
+  if (el.actions.length > 0) {
+    h += `<div class="panel-title">Уже добавленные</div>`;
+    el.actions.forEach((act, i) => {
+      h += `<div class="action-config" style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:12px;font-weight:600">${actionLabel(act)}</div>
+          <div style="display:flex;gap:4px;align-items:center">
+            <span style="font-size:10px;padding:2px 6px;background:rgba(139,92,246,.2);border-radius:4px;color:#c4b5fd">${act.trigger === 'hover' ? 'наведение' : 'клик'}</span>
+            <span style="cursor:pointer;color:#ff8a8a;padding:2px 6px" onclick="removeAction(${i})">✕</span>
+          </div>
+        </div>
+        ${actionConfigFields(act, i)}
+      </div>`;
+    });
+  }
+
+  h += `<div class="panel-title" style="margin-top:16px">Добавить действие</div><div class="action-grid">`;
+  actionTypes.forEach(at => {
+    h += `<div class="action-card" onclick="addAction('${at.id}')"><div class="ic">${at.ic}</div><div class="nm">${at.nm}</div><div class="dsc">${at.dsc}</div></div>`;
+  });
+  h += `</div>`;
+  box.innerHTML = h;
+}
+
+function actionLabel(act) {
+  const labels = { show:'👁 Показать', hide:'🙈 Скрыть', window:'🪟 Окно', tooltip:'💬 Подсказка', audio:'🔊 Аудио', effect:'🎉 Эффект', goto:'📄 Переход', link:'🔗 Ссылка', fullscreen:'⛶ Полный экран' };
+  return labels[act.action] || act.action;
+}
+
+function actionConfigFields(act, i) {
+  let h = '';
+  h += `<div class="field" style="margin-top:8px;margin-bottom:8px"><label>Срабатывает</label>
+    <select onchange="updateAction(${i}, 'trigger', this.value)">
+      <option value="click" ${act.trigger === 'click' ? 'selected' : ''}>При клике</option>
+      <option value="hover" ${act.trigger === 'hover' ? 'selected' : ''}>При наведении</option>
+    </select></div>`;
+
+  if (act.action === 'show' || act.action === 'hide') {
+    h += `<div class="field" style="margin-bottom:8px"><label>Какой элемент</label>
+      <select onchange="updateAction(${i}, 'targetId', this.value)">
+        <option value="">— выберите —</option>
+        ${project.slides[project.current].elements.filter(e => e.id !== selected).map(e =>
+          `<option value="${e.id}" ${act.targetId === e.id ? 'selected' : ''}>${typeLabel(e.type, e.quizType)}</option>`
+        ).join('')}
+      </select></div>`;
+  }
+  if (act.action === 'audio') {
+    h += `<div class="field" style="margin-bottom:8px"><label>Ссылка на аудио</label><input value="${esc(act.audioUrl || '')}" placeholder="https://..." oninput="updateAction(${i}, 'audioUrl', this.value)"></div>`;
+  }
+  if (act.action === 'effect') {
+    h += `<div class="field" style="margin-bottom:8px"><label>Какой эффект</label>
+      <select onchange="updateAction(${i}, 'effectType', this.value)">
+        <option value="confetti" ${act.effectType === 'confetti' ? 'selected' : ''}>🎉 Конфетти</option>
+        <option value="balloons" ${act.effectType === 'balloons' ? 'selected' : ''}>🎈 Шарики</option>
+        <option value="hearts" ${act.effectType === 'hearts' ? 'selected' : ''}>❤️ Сердечки</option>
+        <option value="applause" ${act.effectType === 'applause' ? 'selected' : ''}>👏 Аплодисменты</option>
+        <option value="ohno" ${act.effectType === 'ohno' ? 'selected' : ''}>😱 Oh no!</option>
+      </select></div>`;
+  }
+  if (act.action === 'goto') {
+    h += `<div class="field" style="margin-bottom:8px"><label>На какой слайд</label>
+      <select onchange="updateAction(${i}, 'slideIndex', +this.value)">
+        ${project.slides.map((s, idx) => `<option value="${idx}" ${act.slideIndex === idx ? 'selected' : ''}>${idx + 1}. ${esc(s.name)}</option>`).join('')}
+      </select></div>`;
+  }
+  if (act.action === 'link') {
+    h += `<div class="field" style="margin-bottom:8px"><label>Ссылка</label><input value="${esc(act.url || '')}" placeholder="https://..." oninput="updateAction(${i}, 'url', this.value)"></div>`;
+  }
+  if (act.action === 'window') {
+    h += `<div class="field" style="margin-bottom:8px"><label>Заголовок окна</label><input value="${esc(act.modalTitle || '')}" oninput="updateAction(${i}, 'modalTitle', this.value)"></div>`;
+    h += `<div class="field" style="margin-bottom:8px"><label>Содержимое окна</label><textarea oninput="updateAction(${i}, 'modalContent', this.value)">${esc(act.modalContent || '')}</textarea></div>`;
+  }
+  if (act.action === 'tooltip') {
+    h += `<div class="field" style="margin-bottom:8px"><label>Текст подсказки</label><input value="${esc(act.tooltipText || '')}" oninput="updateAction(${i}, 'tooltipText', this.value)"></div>`;
+  }
+  return h;
+}
+
+function addAction(actionId) {
+  const el = project.slides[project.current].elements.find(e => e.id === selected);
+  if (!el) return;
+  if (!el.actions) el.actions = [];
+  el.actions.push({
+    action: actionId,
+    trigger: actionId === 'tooltip' ? 'hover' : 'click',
+    targetId: '', audioUrl: '', effectType: 'confetti', slideIndex: 0,
+    url: '', modalTitle: 'Информация', modalContent: '', tooltipText: 'Подсказка'
+  });
+  renderStage(); renderActionsPanel(); save();
+  toast('Действие добавлено', 'ok');
+}
+function removeAction(i) {
+  const el = project.slides[project.current].elements.find(e => e.id === selected);
+  if (!el) return;
+  el.actions.splice(i, 1);
+  renderStage(); renderActionsPanel(); save();
+}
+function updateAction(i, key, val) {
+  const el = project.slides[project.current].elements.find(e => e.id === selected);
+  if (!el) return;
+  el.actions[i][key] = val;
+  save();
+}
+
 /* ================= СВОЙСТВА ================= */
 function renderProps() {
   const box = document.getElementById('propsBox');
@@ -934,135 +1256,74 @@ function renderProps() {
     box.innerHTML = `
       <div class="empty-hint">Выберите элемент на слайде,<br>чтобы изменить его свойства.</div>
       <div class="panel-title" style="margin-top:24px">Настройки слайда</div>
-      <div class="field"><label>Название слайда</label>
-        <input value="${esc(slide.name)}" oninput="updateSlide('name', this.value)"></div>
-      <div class="field"><label>Фон слайда</label>
-        <input type="color" value="${esc(slide.bg)}" oninput="updateSlide('bg', this.value)"></div>
+      <div class="field"><label>Название слайда</label><input value="${esc(slide.name)}" oninput="updateSlide('name', this.value)"></div>
+      <div class="field"><label>Фон слайда</label><input type="color" value="${esc(slide.bg)}" oninput="updateSlide('bg', this.value)"></div>
       <div class="panel-title" style="margin-top:20px">Переход к этому слайду</div>
-      <div class="field"><label>Анимация</label>
-        <select onchange="updateTransition('type', this.value)">${transitionOptions(slide.transition?.type)}</select></div>
-      <div class="field"><label>Длительность (мс)</label>
-        <input type="number" min="100" max="3000" step="50" value="${slide.transition?.duration || 500}"
-               oninput="updateTransition('duration', +this.value)"></div>
-      <div class="field" id="customTransitionField" style="${slide.transition?.type === 'custom' ? '' : 'display:none'}">
-        <label>Свой CSS</label>
-        <textarea placeholder=".custom-slide-enter { animation: rotateIn 700ms ease both; }&#10;@keyframes rotateIn { from { transform: rotate(-180deg) } to { transform: rotate(0) } }"
-                  oninput="updateTransition('customCSS', this.value)">${esc(slide.transition?.customCSS || '')}</textarea>
-        <div class="field-hint">Определите класс <b>.custom-slide-enter</b> с любым animation.</div>
-        <input type="file" accept=".css,.txt" onchange="loadCustomCSS(this)" style="margin-top:8px">
-      </div>
+      <div class="field"><label>Анимация</label><select onchange="updateTransition('type', this.value)">${transitionOptions(slide.transition?.type)}</select></div>
+      <div class="field"><label>Длительность (мс)</label><input type="number" min="100" max="3000" step="50" value="${slide.transition?.duration || 500}" oninput="updateTransition('duration', +this.value)"></div>
     `;
     return;
   }
 
   let h = `<div class="panel-title">Элемент: ${typeLabel(el.type, el.quizType)}</div>`;
 
-  /* ---- QUIZ СВОЙСТВА ---- */
   if (el.type === 'quiz') {
     const qType = el.quizType;
-
-    h += `<div class="field"><label>Вопрос</label>
-      <textarea oninput="updateQuiz('question', this.value)" style="min-height:60px">${esc(el.question)}</textarea></div>`;
-
+    h += `<div class="field"><label>Вопрос</label><textarea oninput="updateQuiz('question', this.value)" style="min-height:60px">${esc(el.question)}</textarea></div>`;
     if (qType === 'short') {
-      h += `<div class="field"><label>Правильный ответ</label>
-        <input value="${esc(el.answer || '')}" placeholder="Введите правильный ответ"
-               oninput="updateQuiz('answer', this.value)">
-        <div class="field-hint">Проверка регистронезависимая, лишние пробелы игнорируются.</div>
-      </div>`;
+      h += `<div class="field"><label>Правильный ответ</label><input value="${esc(el.answer || '')}" oninput="updateQuiz('answer', this.value)"></div>`;
     }
-
     if (['single','multiple','truefalse','survey'].includes(qType)) {
-      h += `<div class="panel-title" style="margin-top:16px">Варианты ответа</div>`;
-      h += `<div class="quiz-choice-list" id="quizChoices">`;
+      h += `<div class="panel-title" style="margin-top:16px">Варианты</div><div class="quiz-choice-list">`;
       el.choices.forEach((c, i) => {
-        const canMarkCorrect = qType !== 'survey';
+        const canMark = qType !== 'survey';
         h += `<div class="quiz-choice-item ${c.correct ? 'is-correct' : ''}">
-          <div class="mark" ${canMarkCorrect ? `onclick="toggleChoiceCorrect(${i})"` : ''} style="${!canMarkCorrect ? 'opacity:.3;cursor:default' : ''}">${c.correct ? '✓' : ''}</div>
+          <div class="mark" ${canMark ? `onclick="toggleChoiceCorrect(${i})"` : ''} style="${!canMark ? 'opacity:.3' : ''}">${c.correct ? '✓' : ''}</div>
           <input type="text" value="${esc(c.text)}" oninput="updateChoice(${i}, 'text', this.value)">
           <div class="rm" onclick="removeChoice(${i})">✕</div>
         </div>`;
       });
-      h += `</div>`;
-      h += `<button class="btn btn-sm" style="width:100%;justify-content:center;margin-top:8px" onclick="addChoice()">＋ Добавить вариант</button>`;
-      if (qType === 'single' || qType === 'truefalse') {
-        h += `<div class="field-hint" style="margin-top:8px">Нажмите на квадратик слева, чтобы отметить правильный ответ (только один).</div>`;
-      } else if (qType === 'multiple') {
-        h += `<div class="field-hint" style="margin-top:8px">Можно отметить несколько правильных ответов.</div>`;
-      } else {
-        h += `<div class="field-hint" style="margin-top:8px">В опросе нет правильных ответов — это голосование.</div>`;
-      }
+      h += `</div><button class="btn btn-sm" style="width:100%;justify-content:center;margin-top:8px" onclick="addChoice()">＋ Добавить вариант</button>`;
     }
-
     h += `<div class="panel-title" style="margin-top:20px">Обратная связь</div>`;
     if (qType !== 'open' && qType !== 'survey') {
-      h += `<div class="field"><label>Сообщение при верном ответе</label>
-        <input value="${esc(el.feedbackOk || '')}" oninput="updateQuiz('feedbackOk', this.value)"></div>`;
-      h += `<div class="field"><label>Сообщение при неверном ответе</label>
-        <input value="${esc(el.feedbackNo || '')}" oninput="updateQuiz('feedbackNo', this.value)"></div>`;
-    } else {
-      h += `<div class="field"><label>Сообщение после ответа</label>
-        <input value="${esc(el.feedbackOk || '')}" oninput="updateQuiz('feedbackOk', this.value)"></div>`;
+      h += `<div class="field"><label>При верном</label><input value="${esc(el.feedbackOk || '')}" oninput="updateQuiz('feedbackOk', this.value)"></div>`;
+      h += `<div class="field"><label>При неверном</label><input value="${esc(el.feedbackNo || '')}" oninput="updateQuiz('feedbackNo', this.value)"></div>`;
     }
-
-    h += `<div class="panel-title" style="margin-top:20px">Дополнительно</div>`;
-    h += `<div class="field"><label>Таймер (секунд, 0 = без таймера)</label>
-      <input type="number" min="0" max="600" value="${el.timer || 0}" oninput="updateQuiz('timer', +this.value)"></div>`;
-
     h += `<div class="field"><label>После ответа</label>
       <select onchange="updateQuiz('action', this.value)">
-        <option value="none" ${el.action === 'none' ? 'selected' : ''}>Остаться на слайде</option>
-        <option value="next" ${el.action === 'next' ? 'selected' : ''}>Перейти на следующий слайд</option>
-        <option value="goto" ${el.action === 'goto' ? 'selected' : ''}>Перейти на конкретный слайд</option>
+        <option value="none" ${el.action === 'none' ? 'selected' : ''}>Остаться</option>
+        <option value="next" ${el.action === 'next' ? 'selected' : ''}>Следующий слайд</option>
+        <option value="goto" ${el.action === 'goto' ? 'selected' : ''}>Конкретный слайд</option>
       </select></div>`;
     if (el.action === 'goto') {
-      h += `<div class="field"><label>На какой слайд</label>
-        <select onchange="updateQuiz('actionSlide', +this.value)">
-          ${project.slides.map((s, i) => `<option value="${i}" ${el.actionSlide === i ? 'selected' : ''}>${i + 1}. ${esc(s.name)}</option>`).join('')}
-        </select></div>`;
+      h += `<div class="field"><label>На какой слайд</label><select onchange="updateQuiz('actionSlide', +this.value)">${project.slides.map((s, i) => `<option value="${i}" ${el.actionSlide === i ? 'selected' : ''}>${i + 1}. ${esc(s.name)}</option>`).join('')}</select></div>`;
     }
   }
 
-  /* ---- ОСТАЛЬНЫЕ ЭЛЕМЕНТЫ ---- */
   if (['image','audio','video'].includes(el.type)) {
-    h += `<div class="field"><label>Ссылка (URL)</label>
-      <input value="${esc(el.src)}" placeholder="https://..." oninput="updateEl('src', this.value)">
-      <div class="field-hint">Прямая ссылка на файл.</div></div>`;
+    h += `<div class="field"><label>Ссылка (URL)</label><input value="${esc(el.src)}" placeholder="https://..." oninput="updateEl('src', this.value)"></div>`;
   }
   if (el.type === 'iframe') {
-    h += `<div class="field"><label>Ссылка на игру</label>
-      <input value="${esc(el.src || '')}" placeholder="https://..."
-             oninput="updateEl('src', this.value); updateEl('srcdoc', '')"></div>`;
-    h += `<div class="field"><label>…или HTML-код игры</label>
-      <textarea placeholder="&lt;!DOCTYPE html&gt;..."
-                oninput="updateEl('srcdoc', this.value); updateEl('src', '')">${esc(el.srcdoc || '')}</textarea></div>`;
+    h += `<div class="field"><label>Ссылка на игру</label><input value="${esc(el.src || '')}" placeholder="https://..." oninput="updateEl('src', this.value); updateEl('srcdoc', '')"></div>`;
+    h += `<div class="field"><label>…или HTML-код игры</label><textarea placeholder="&lt;!DOCTYPE html&gt;..." oninput="updateEl('srcdoc', this.value); updateEl('src', '')">${esc(el.srcdoc || '')}</textarea></div>`;
     h += `<div style="padding:10px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:8px;margin-bottom:14px">
-      <div style="font-size:11px;color:var(--muted);margin-bottom:8px">
-        ${el.interactive ? '🔓 Игра активна — можно играть в редакторе.' : '🔒 Игра заблокирована — тяните её мышкой.'}
-      </div>
-      <button class="btn ${el.interactive ? 'btn-success' : ''}" style="width:100%;justify-content:center"
-              onclick="toggleInteractive('${el.id}')">
-        ${el.interactive ? '🔒 Заблокировать' : '🔓 Разблокировать для игры'}
-      </button>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px">${el.interactive ? '🔓 Игра активна' : '🔒 Игра заблокирована'}</div>
+      <button class="btn ${el.interactive ? 'btn-success' : ''}" style="width:100%;justify-content:center" onclick="toggleInteractive('${el.id}')">${el.interactive ? '🔒 Заблокировать' : '🔓 Разблокировать'}</button>
     </div>`;
   }
   if (el.type === 'text') {
-    h += `<div class="field"><label>Текст</label>
-      <textarea oninput="updateEl('text', this.value)">${esc(el.text)}</textarea></div>
+    h += `<div class="field"><label>Текст</label><textarea oninput="updateEl('text', this.value)">${esc(el.text)}</textarea></div>
       <div class="field-row">
-        <div class="field"><label>Цвет</label>
-          <input type="color" value="${esc(el.color)}" oninput="updateEl('color', this.value)"></div>
-        <div class="field"><label>Размер</label>
-          <input type="number" value="${el.size}" min="8" max="120" oninput="updateEl('size', +this.value)"></div>
+        <div class="field"><label>Цвет</label><input type="color" value="${esc(el.color)}" oninput="updateEl('color', this.value)"></div>
+        <div class="field"><label>Размер</label><input type="number" value="${el.size}" min="8" max="120" oninput="updateEl('size', +this.value)"></div>
       </div>`;
   }
   if (el.type === 'button') {
-    h += `<div class="field"><label>Надпись</label>
-      <input value="${esc(el.text)}" oninput="updateEl('text', this.value)"></div>
+    h += `<div class="field"><label>Надпись</label><input value="${esc(el.text)}" oninput="updateEl('text', this.value)"></div>
       <div class="field"><label>Перейти на слайд</label>
-        <select onchange="updateEl('toSlide', +this.value)">
-          ${project.slides.map((s, i) => `<option value="${i}" ${el.toSlide === i ? 'selected' : ''}>${i + 1}. ${esc(s.name)}</option>`).join('')}
-        </select></div>`;
+        <select onchange="updateEl('toSlide', +this.value)">${project.slides.map((s, i) => `<option value="${i}" ${el.toSlide === i ? 'selected' : ''}>${i + 1}. ${esc(s.name)}</option>`).join('')}</select>
+      </div>`;
   }
 
   h += `<div class="panel-title" style="margin-top:20px">Позиция и размер</div>
@@ -1081,15 +1342,14 @@ function renderProps() {
 
 function typeLabel(t, qt) {
   if (t === 'quiz') {
-    return { single:'Вопрос (один вариант)', multiple:'Вопрос (несколько)', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' }[qt] || 'Вопрос';
+    return { single:'Вопрос (один)', multiple:'Вопрос (несколько)', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' }[qt] || 'Вопрос';
   }
   return { text:'Текст', image:'Картинка', audio:'Аудио', video:'Видео', iframe:'Игра', button:'Кнопка' }[t] || t;
 }
 function transitionOptions(cur) {
   const opts = [
-    ['none','Без анимации'], ['fade','Плавное появление (fade)'],
-    ['slide-left','Выезд слева'], ['slide-right','Выезд справа'], ['slide-up','Выезд снизу'],
-    ['zoom','Увеличение (zoom)'], ['flip','Переворот (flip)'], ['custom','Свой CSS']
+    ['none','Без анимации'], ['fade','Fade'], ['slide-left','Slide ←'], ['slide-right','Slide →'],
+    ['slide-up','Slide ↑'], ['zoom','Zoom'], ['flip','Flip'], ['custom','Свой CSS']
   ];
   return opts.map(([v, l]) => `<option value="${v}" ${cur === v ? 'selected' : ''}>${l}</option>`).join('');
 }
@@ -1101,18 +1361,16 @@ function updateEl(key, val) {
   if (['x','y','w','h'].includes(key)) {
     const d = document.querySelector(`#stage .el[data-id="${el.id}"]`);
     if (d) { d.style.left = el.x + 'px'; d.style.top = el.y + 'px'; d.style.width = el.w + 'px'; d.style.height = el.h + 'px'; }
-  } else { renderStage(); }
+  } else renderStage();
   save();
 }
-
-/* ---- QUIZ обновления ---- */
 function updateQuiz(key, val) {
   const s = project.slides[project.current];
   const el = s.elements.find(e => e.id === selected);
   if (!el) return;
   el[key] = val;
   if (key === 'action') renderProps();
-  else { renderStage(); }
+  else renderStage();
   save();
 }
 function updateChoice(i, key, val) {
@@ -1127,11 +1385,8 @@ function toggleChoiceCorrect(i) {
   const el = s.elements.find(e => e.id === selected);
   if (!el || !el.choices) return;
   const qType = el.quizType;
-  if (qType === 'single' || qType === 'truefalse') {
-    el.choices.forEach((c, idx) => { c.correct = idx === i; });
-  } else if (qType === 'multiple') {
-    el.choices[i].correct = !el.choices[i].correct;
-  }
+  if (qType === 'single' || qType === 'truefalse') el.choices.forEach((c, idx) => { c.correct = idx === i; });
+  else if (qType === 'multiple') el.choices[i].correct = !el.choices[i].correct;
   renderStage(); renderProps(); save();
 }
 function addChoice() {
@@ -1150,7 +1405,6 @@ function removeChoice(i) {
   el.choices.splice(i, 1);
   renderStage(); renderProps(); save();
 }
-
 function updateSlide(key, val) { project.slides[project.current][key] = val; render(); }
 function updateTransition(key, val) {
   const s = project.slides[project.current];
@@ -1158,13 +1412,6 @@ function updateTransition(key, val) {
   s.transition[key] = val;
   if (key === 'type') renderProps();
   save();
-}
-function loadCustomCSS(input) {
-  const file = input.files?.[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => { updateTransition('customCSS', e.target.result); renderProps(); toast('CSS загружен', 'ok'); };
-  reader.readAsText(file);
 }
 
 /* ================= РЕДАКТОРЫ ================= */
@@ -1238,11 +1485,7 @@ function pickHTMLFile() {
   input.onchange = () => {
     const file = input.files?.[0]; if (!file) return;
     const reader = new FileReader();
-    reader.onload = e => {
-      insertGameOnSlide({ srcdoc: e.target.result });
-      closeEditorModal();
-      toast('Игра добавлена на слайд', 'ok');
-    };
+    reader.onload = e => { insertGameOnSlide({ srcdoc: e.target.result }); closeEditorModal(); toast('Игра добавлена', 'ok'); };
     reader.readAsText(file);
   };
   input.click();
@@ -1253,7 +1496,7 @@ function pickURLLink() {
   if (!url) return;
   insertGameOnSlide({ src: url.trim() });
   closeEditorModal();
-  toast('Игра добавлена на слайд', 'ok');
+  toast('Игра добавлена', 'ok');
 }
 function pickHTMLCode() {
   closeGamePicker();
@@ -1261,19 +1504,20 @@ function pickHTMLCode() {
   if (!code) return;
   insertGameOnSlide({ srcdoc: code });
   closeEditorModal();
-  toast('Игра добавлена на слайд', 'ok');
+  toast('Игра добавлена', 'ok');
 }
-
 function insertGameOnSlide({ srcdoc, src }) {
   const s = project.slides[project.current];
   const el = {
     id: uid(), type: 'iframe',
     x: Math.round((STAGE_W - 520) / 2), y: Math.round((STAGE_H - 360) / 2),
-    w: 520, h: 360, src: src || '', srcdoc: srcdoc || '', interactive: false
+    w: 520, h: 360, src: src || '', srcdoc: srcdoc || '', interactive: false,
+    animation: JSON.parse(JSON.stringify(DEFAULT_ANIM)),
+    actions: []
   };
   s.elements.push(el);
   selected = el.id;
-  renderStage(); renderProps(); save(); switchTab('props');
+  render(); switchTab('props'); save();
 }
 
 /* ================= ПРЕДПРОСМОТР ================= */
@@ -1294,25 +1538,25 @@ function previewNav(dir) {
 
 function buildPreviewQuiz(el) {
   const wrap = document.createElement('div');
-  wrap.className = 'preview-quiz';
-  const typeLabelMap = { single:'Один вариант', multiple:'Несколько', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' };
-  let h = `<div class="pq-type">❓ ${typeLabelMap[el.quizType] || ''}</div><div class="pq-q">${esc(el.question)}</div>`;
+  wrap.className = 'pq';
+  const tl = { single:'Один вариант', multiple:'Несколько', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' };
+  let h = `<div class="pq-type">❓ ${tl[el.quizType] || ''}</div><div class="pq-q">${esc(el.question)}</div>`;
 
   if (el.quizType === 'short') {
     h += `<input class="pq-input" id="pq-${el.id}" placeholder="Введите ответ...">`;
-    h += `<button class="pq-btn" onclick="checkShort('${el.id}', '${esc(el.answer || '')}', '${esc(el.feedbackOk || 'Верно!')}', '${esc(el.feedbackNo || 'Неверно')}')">Проверить</button>`;
+    h += `<button class="pq-btn" data-id="${el.id}" data-ans="${esc(el.answer || '')}" data-ok="${esc(el.feedbackOk || 'Верно!')}" data-no="${esc(el.feedbackNo || 'Неверно')}" onclick="previewCheckShort(this)">Проверить</button>`;
     h += `<div class="pq-fb" id="pq-fb-${el.id}"></div>`;
   } else if (el.quizType === 'open') {
     h += `<textarea class="pq-input" rows="3" placeholder="Ваш ответ..."></textarea>`;
-    h += `<button class="pq-btn" onclick="this.nextElementSibling.textContent='${esc(el.feedbackOk || 'Спасибо за ответ!')}'; this.nextElementSibling.className='pq-fb ok'">Отправить</button>`;
+    h += `<button class="pq-btn" onclick="previewOpenSubmit(this, '${esc(el.feedbackOk || 'Спасибо!')}')">Отправить</button>`;
     h += `<div class="pq-fb"></div>`;
   } else if (el.choices && el.choices.length) {
     h += `<div class="pq-opts" id="pq-opts-${el.id}">`;
     el.choices.forEach((c, i) => {
-      h += `<div class="pq-opt" data-i="${i}" onclick="pickQuizOption('${el.id}', ${i})">${esc(c.text)}</div>`;
+      h += `<div class="pq-opt" data-i="${i}" onclick="previewPick('${el.id}', ${i})">${esc(c.text)}</div>`;
     });
     h += `</div>`;
-    h += `<button class="pq-btn" onclick="checkQuizChoice('${el.id}', '${el.quizType}', '${esc(el.feedbackOk || 'Верно!')}', '${esc(el.feedbackNo || 'Неверно')}')">Ответить</button>`;
+    h += `<button class="pq-btn" data-id="${el.id}" onclick="previewCheckChoice(this)">Ответить</button>`;
     h += `<div class="pq-fb" id="pq-fb-${el.id}"></div>`;
   }
   wrap.innerHTML = h;
@@ -1320,7 +1564,7 @@ function buildPreviewQuiz(el) {
 }
 
 window._quizPicks = window._quizPicks || {};
-function pickQuizOption(elId, i) {
+function previewPick(elId, i) {
   const box = document.getElementById('pq-opts-' + elId);
   if (!box) return;
   const el = findQuizById(elId);
@@ -1328,27 +1572,25 @@ function pickQuizOption(elId, i) {
   if (!window._quizPicks[elId]) window._quizPicks[elId] = [];
   if (el.quizType === 'multiple') {
     const idx = window._quizPicks[elId].indexOf(i);
-    if (idx >= 0) window._quizPicks[elId].splice(idx, 1); else window._quizPicks[elId].push(i);
+    if (idx >= 0) window._quizPicks[elId].splice(idx, 1);
+    else window._quizPicks[elId].push(i);
   } else {
     window._quizPicks[elId] = [i];
   }
-  box.querySelectorAll('.pq-opt').forEach((n, idx) => {
-    n.classList.toggle('picked', window._quizPicks[elId].includes(idx));
-  });
+  box.querySelectorAll('.pq-opt').forEach((n, idx) => n.classList.toggle('picked', window._quizPicks[elId].includes(idx)));
 }
 function findQuizById(elId) {
-  for (const s of project.slides) {
-    const found = s.elements.find(e => e.id === elId);
-    if (found) return found;
-  }
+  for (const s of project.slides) { const f = s.elements.find(e => e.id === elId); if (f) return f; }
   return null;
 }
-function checkQuizChoice(elId, qType, okMsg, noMsg) {
+function previewCheckChoice(btn) {
+  const elId = btn.dataset.id;
   const el = findQuizById(elId);
   if (!el) return;
   const picks = window._quizPicks[elId] || [];
   const fb = document.getElementById('pq-fb-' + elId);
-  if (qType === 'survey') { fb.textContent = okMsg; fb.className = 'pq-fb ok'; return; }
+  const qType = el.quizType;
+  if (qType === 'survey') { fb.textContent = el.feedbackOk || 'Спасибо!'; fb.className = 'pq-fb ok'; return; }
   const correctIdx = el.choices.map((c, i) => c.correct ? i : -1).filter(i => i >= 0);
   let isCorrect = false;
   if (qType === 'single' || qType === 'truefalse') isCorrect = picks.length === 1 && correctIdx.includes(picks[0]);
@@ -1359,18 +1601,27 @@ function checkQuizChoice(elId, qType, okMsg, noMsg) {
     if (correctIdx.includes(i)) n.classList.add('correct');
     else if (picks.includes(i)) n.classList.add('wrong');
   });
-  fb.textContent = isCorrect ? okMsg : noMsg;
+  fb.textContent = isCorrect ? (el.feedbackOk || 'Верно!') : (el.feedbackNo || 'Неверно');
   fb.className = 'pq-fb ' + (isCorrect ? 'ok' : 'no');
   if (isCorrect && el.action === 'next') setTimeout(() => previewNav(1), 800);
   if (isCorrect && el.action === 'goto') setTimeout(() => { previewIndex = el.actionSlide; showPreviewSlide(el.actionSlide, true); }, 800);
 }
-function checkShort(elId, ans, okMsg, noMsg) {
-  const inp = document.getElementById('pq-' + elId);
-  const fb = document.getElementById('pq-fb-' + elId);
+function previewCheckShort(btn) {
+  const id = btn.dataset.id;
+  const ans = btn.dataset.ans;
+  const ok = btn.dataset.ok;
+  const no = btn.dataset.no;
+  const inp = document.getElementById('pq-' + id);
+  const fb = document.getElementById('pq-fb-' + id);
   const v = (inp.value || '').trim().toLowerCase().replace(/\s+/g, ' ');
-  const correct = (ans || '').trim().toLowerCase().replace(/\s+/g, ' ');
-  if (v === correct) { fb.textContent = okMsg; fb.className = 'pq-fb ok'; }
-  else { fb.textContent = noMsg; fb.className = 'pq-fb no'; }
+  const c = (ans || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  if (v === c) { fb.textContent = ok; fb.className = 'pq-fb ok'; }
+  else { fb.textContent = no; fb.className = 'pq-fb no'; }
+}
+function previewOpenSubmit(btn, okMsg) {
+  const fb = btn.nextElementSibling;
+  fb.textContent = okMsg;
+  fb.className = 'pq-fb ok';
 }
 
 function showPreviewSlide(index, animate) {
@@ -1382,6 +1633,7 @@ function showPreviewSlide(index, animate) {
   wrap.innerHTML = '';
   const slideEl = document.createElement('div');
   slideEl.style.cssText = `position:absolute;inset:0;background:${s.bg};overflow:hidden;`;
+
   s.elements.forEach(el => {
     const d = document.createElement('div');
     d.className = 'preview-el';
@@ -1411,13 +1663,14 @@ function showPreviewSlide(index, animate) {
     slideEl.appendChild(d);
   });
   wrap.appendChild(slideEl);
+
   if (animate) {
     const t = s.transition || { type: 'fade', duration: 500 };
     const dur = t.duration || 500;
     if (t.type === 'custom' && t.customCSS) {
-      let styleTag = document.getElementById('customTransitionStyle');
-      if (!styleTag) { styleTag = document.createElement('style'); styleTag.id = 'customTransitionStyle'; document.head.appendChild(styleTag); }
-      styleTag.textContent = t.customCSS;
+      let tag = document.getElementById('customTransitionStyle');
+      if (!tag) { tag = document.createElement('style'); tag.id = 'customTransitionStyle'; document.head.appendChild(tag); }
+      tag.textContent = t.customCSS;
       slideEl.style.animationDuration = dur + 'ms';
       slideEl.classList.add('custom-slide-enter');
     } else {
@@ -1439,6 +1692,7 @@ function exportQuest() {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   toast('Квест скачан: quest.html', 'ok');
 }
+
 function buildStandaloneQuest(proj) {
   const slidesData = proj.slides.map(s => ({
     id: s.id, name: s.name, bg: s.bg,
@@ -1446,55 +1700,54 @@ function buildStandaloneQuest(proj) {
     elements: s.elements
   }));
   const customCSS = slidesData.filter(s => s.transition.type === 'custom' && s.transition.customCSS).map(s => s.transition.customCSS).join('\n');
+
   return `<!DOCTYPE html>
 <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(proj.slides[0].name)}</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{background:radial-gradient(1200px 700px at 50% 0%,#1a1f38 0%,#050710 60%);display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
-  #stage{position:relative;width:${STAGE_W}px;height:${STAGE_H}px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.7);border-radius:6px;overflow:hidden}
-  .slide{position:absolute;inset:0;overflow:hidden;background:#fff}
-  .el{position:absolute}
-  .el img,.el video{width:100%;height:100%;object-fit:contain;display:block}
-  .el iframe{width:100%;height:100%;border:none;display:block}
-  .el audio{width:100%}
-  .el .txt{padding:6px;width:100%;height:100%;overflow:hidden;font-size:18px;white-space:pre-wrap}
-  .el .btn-shape{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;font-weight:600;cursor:pointer;transition:transform .1s ease;box-shadow:0 4px 14px rgba(139,92,246,.35)}
-  .el .btn-shape:hover{transform:translateY(-2px)}
-  .el .btn-shape:active{transform:scale(.97)}
-  #nav{position:fixed;bottom:20px;right:20px;display:flex;gap:10px;z-index:100}
-  #nav button{padding:10px 18px;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;box-shadow:0 6px 20px rgba(139,92,246,.4)}
-  @keyframes animFade{from{opacity:0}to{opacity:1}}
-  @keyframes animSlideLeft{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-  @keyframes animSlideRight{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
-  @keyframes animSlideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-  @keyframes animZoom{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
-  @keyframes animFlip{from{transform:perspective(1000px) rotateY(90deg);opacity:0}to{transform:perspective(1000px) rotateY(0);opacity:1}}
-  @keyframes animNone{from{opacity:1}to{opacity:1}}
-  .anim-fade{animation:animFade var(--dur,500ms) ease both}
-  .anim-slide-left{animation:animSlideLeft var(--dur,500ms) cubic-bezier(.2,.9,.3,1) both}
-  .anim-slide-right{animation:animSlideRight var(--dur,500ms) cubic-bezier(.2,.9,.3,1) both}
-  .anim-slide-up{animation:animSlideUp var(--dur,500ms) cubic-bezier(.2,.9,.3,1) both}
-  .anim-zoom{animation:animZoom var(--dur,500ms) cubic-bezier(.2,.9,.3,1.2) both}
-  .anim-flip{animation:animFlip var(--dur,600ms) ease both}
-  .anim-none{animation:animNone var(--dur,0ms) both}
-  .pq{width:100%;height:100%;background:linear-gradient(135deg,#fff,#f8f9ff);border:2px solid #e0e4f5;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;font-size:14px;color:#222;overflow:hidden}
-  .pq-type{font-size:10px;font-weight:700;letter-spacing:.8px;color:#8b5cf6;text-transform:uppercase}
-  .pq-q{font-weight:600;font-size:15px;line-height:1.4}
-  .pq-opts{display:flex;flex-direction:column;gap:6px;flex:1;overflow-y:auto}
-  .pq-opt{padding:8px 12px;background:#fff;border:1.5px solid #e0e4f5;border-radius:8px;cursor:pointer;transition:all .15s ease;font-size:13px;display:flex;align-items:center;gap:8px}
-  .pq-opt:hover{border-color:#8b5cf6;background:#f5f3ff}
-  .pq-opt.picked{border-color:#8b5cf6;background:#ede9fe}
-  .pq-opt.correct{border-color:#10b981;background:#ecfdf5}
-  .pq-opt.wrong{border-color:#ef4444;background:#fef2f2}
-  .pq-input{padding:8px 12px;border:1.5px solid #e0e4f5;border-radius:8px;font-size:13px;font-family:inherit}
-  .pq-input:focus{outline:none;border-color:#8b5cf6}
-  .pq-btn{padding:8px 16px;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;align-self:flex-start}
-  .pq-fb{font-size:12px;font-weight:600}
-  .pq-fb.ok{color:#10b981}
-  .pq-fb.no{color:#ef4444}
-  ${customCSS}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:radial-gradient(1200px 700px at 50% 0%,#1a1f38 0%,#050710 60%);display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
+#stage{position:relative;width:${STAGE_W}px;height:${STAGE_H}px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.7);border-radius:6px;overflow:hidden}
+.slide{position:absolute;inset:0;overflow:hidden;background:#fff}
+.el{position:absolute}
+.el img,.el video{width:100%;height:100%;object-fit:contain;display:block}
+.el iframe{width:100%;height:100%;border:none;display:block}
+.el audio{width:100%}
+.el .txt{padding:6px;width:100%;height:100%;overflow:hidden;font-size:18px;white-space:pre-wrap}
+.el .btn-shape{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(139,92,246,.35)}
+#nav{position:fixed;bottom:20px;right:20px;display:flex;gap:10px;z-index:100}
+#nav button{padding:10px 18px;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;box-shadow:0 6px 20px rgba(139,92,246,.4)}
+@keyframes animFade{from{opacity:0}to{opacity:1}}
+@keyframes animSlideLeft{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes animSlideRight{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes animSlideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes animZoom{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes animFlip{from{transform:perspective(1000px) rotateY(90deg);opacity:0}to{transform:perspective(1000px) rotateY(0);opacity:1}}
+@keyframes animNone{from{opacity:1}to{opacity:1}}
+.anim-fade{animation:animFade var(--dur,500ms) ease both}
+.anim-slide-left{animation:animSlideLeft var(--dur,500ms) cubic-bezier(.2,.9,.3,1) both}
+.anim-slide-right{animation:animSlideRight var(--dur,500ms) cubic-bezier(.2,.9,.3,1) both}
+.anim-slide-up{animation:animSlideUp var(--dur,500ms) cubic-bezier(.2,.9,.3,1) both}
+.anim-zoom{animation:animZoom var(--dur,500ms) cubic-bezier(.2,.9,.3,1.2) both}
+.anim-flip{animation:animFlip var(--dur,600ms) ease both}
+.anim-none{animation:animNone var(--dur,0ms) both}
+.pq{width:100%;height:100%;background:linear-gradient(135deg,#fff,#f8f9ff);border:2px solid #e0e4f5;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;font-size:14px;color:#222;overflow:hidden}
+.pq-type{font-size:10px;font-weight:700;letter-spacing:.8px;color:#8b5cf6;text-transform:uppercase}
+.pq-q{font-weight:600;font-size:15px;line-height:1.4}
+.pq-opts{display:flex;flex-direction:column;gap:6px;flex:1;overflow-y:auto}
+.pq-opt{padding:8px 12px;background:#fff;border:1.5px solid #e0e4f5;border-radius:8px;cursor:pointer;transition:all .15s ease;font-size:13px;display:flex;align-items:center;gap:8px}
+.pq-opt:hover{border-color:#8b5cf6;background:#f5f3ff}
+.pq-opt.picked{border-color:#8b5cf6;background:#ede9fe}
+.pq-opt.correct{border-color:#10b981;background:#ecfdf5}
+.pq-opt.wrong{border-color:#ef4444;background:#fef2f2}
+.pq-input{padding:8px 12px;border:1.5px solid #e0e4f5;border-radius:8px;font-size:13px;font-family:inherit}
+.pq-input:focus{outline:none;border-color:#8b5cf6}
+.pq-btn{padding:8px 16px;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;align-self:flex-start}
+.pq-fb{font-size:12px;font-weight:600}
+.pq-fb.ok{color:#10b981}
+.pq-fb.no{color:#ef4444}
+${customCSS}
 </style></head><body>
 <div id="stage"></div>
 <div id="nav"><button onclick="nav(-1)">← Назад</button><button onclick="nav(1)">Вперёд →</button></div>
@@ -1536,17 +1789,17 @@ function buildQuiz(el){
   let h = '<div class="pq-type">❓ '+(tl[el.quizType]||'')+'</div><div class="pq-q">'+esc(el.question)+'</div>';
   if(el.quizType==='short'){
     h += '<input class="pq-input" id="s-'+el.id+'" placeholder="Введите ответ...">';
-    h += '<button class="pq-btn" onclick="checkShort(\\''+el.id+'\\',\\''+esc(el.answer||'')+'\\',\\''+esc(el.feedbackOk||'Верно!')+'\\',\\''+esc(el.feedbackNo||'Неверно')+'\\')">Проверить</button>';
+    h += '<button class="pq-btn" data-id="'+el.id+'" data-ans="'+esc(el.answer||'')+'" data-ok="'+esc(el.feedbackOk||'Верно!')+'" data-no="'+esc(el.feedbackNo||'Неверно')+'" onclick="checkShort(this)">Проверить</button>';
     h += '<div class="pq-fb" id="f-'+el.id+'"></div>';
   } else if(el.quizType==='open'){
     h += '<textarea class="pq-input" rows="3" placeholder="Ваш ответ..."></textarea>';
-    h += '<button class="pq-btn" onclick="this.nextElementSibling.textContent=\\''+esc(el.feedbackOk||'Спасибо за ответ!')+'\\';this.nextElementSibling.className=\\'pq-fb ok\\'">Отправить</button>';
+    h += '<button class="pq-btn" onclick="openSubmit(this,\\''+esc(el.feedbackOk||'Спасибо!')+'\\')">Отправить</button>';
     h += '<div class="pq-fb"></div>';
   } else if(el.choices){
     h += '<div class="pq-opts" id="o-'+el.id+'">';
     el.choices.forEach((c,i)=>{ h += '<div class="pq-opt" data-i="'+i+'" onclick="pick(\\''+el.id+'\\','+i+',\\''+el.quizType+'\\')">'+esc(c.text)+'</div>'; });
     h += '</div>';
-    h += '<button class="pq-btn" onclick="check(\\''+el.id+'\\',\\''+el.quizType+'\\',\\''+esc(el.feedbackOk||'Верно!')+'\\',\\''+esc(el.feedbackNo||'Неверно')+'\\')">Ответить</button>';
+    h += '<button class="pq-btn" data-id="'+el.id+'" onclick="check(this)">Ответить</button>';
     h += '<div class="pq-fb" id="f-'+el.id+'"></div>';
   }
   w.innerHTML = h; return w;
@@ -1559,26 +1812,33 @@ function pick(id,i,qt){
   else window._qp[id]=[i];
   b.querySelectorAll('.pq-opt').forEach((n,idx)=>n.classList.toggle('picked', window._qp[id].includes(idx)));
 }
-function check(id,qt,ok,no){
+function check(btn){
+  const id = btn.dataset.id;
   const el = findQ(id); if(!el) return;
   const picks = window._qp[id]||[];
   const fb = document.getElementById('f-'+id);
-  if(qt==='survey'){ fb.textContent=ok; fb.className='pq-fb ok'; return; }
+  if(el.quizType==='survey'){ fb.textContent=el.feedbackOk||'Спасибо!'; fb.className='pq-fb ok'; return; }
   const correct = el.choices.map((c,i)=>c.correct?i:-1).filter(i=>i>=0);
   let isC=false;
-  if(qt==='single'||qt==='truefalse') isC = picks.length===1 && correct.includes(picks[0]);
-  else if(qt==='multiple') isC = picks.length===correct.length && correct.every(i=>picks.includes(i));
+  if(el.quizType==='single'||el.quizType==='truefalse') isC = picks.length===1 && correct.includes(picks[0]);
+  else if(el.quizType==='multiple') isC = picks.length===correct.length && correct.every(i=>picks.includes(i));
   const b = document.getElementById('o-'+id);
   b.querySelectorAll('.pq-opt').forEach((n,i)=>{ n.classList.remove('picked'); if(correct.includes(i)) n.classList.add('correct'); else if(picks.includes(i)) n.classList.add('wrong'); });
-  fb.textContent = isC ? ok : no; fb.className = 'pq-fb '+(isC?'ok':'no');
+  fb.textContent = isC ? (el.feedbackOk||'Верно!') : (el.feedbackNo||'Неверно');
+  fb.className = 'pq-fb '+(isC?'ok':'no');
   if(isC && el.action==='next') setTimeout(()=>nav(1), 800);
   if(isC && el.action==='goto') setTimeout(()=>{ showSlide(el.actionSlide,true); }, 800);
 }
-function checkShort(id,ans,ok,no){
+function checkShort(btn){
+  const id = btn.dataset.id, ans = btn.dataset.ans, ok = btn.dataset.ok, no = btn.dataset.no;
   const inp = document.getElementById('s-'+id); const fb = document.getElementById('f-'+id);
   const v = (inp.value||'').trim().toLowerCase().replace(/\\s+/g,' ');
   const c = (ans||'').trim().toLowerCase().replace(/\\s+/g,' ');
   if(v===c){ fb.textContent=ok; fb.className='pq-fb ok'; } else { fb.textContent=no; fb.className='pq-fb no'; }
+}
+function openSubmit(btn, ok){
+  const fb = btn.nextElementSibling;
+  fb.textContent = ok; fb.className = 'pq-fb ok';
 }
 function nav(dir){ const n = cur+dir; if(n<0||n>=P.slides.length) return; showSlide(n,true); }
 showSlide(0,false);
@@ -1593,7 +1853,7 @@ function resetAll() {
   project = JSON.parse(JSON.stringify(DEFAULT_PROJECT));
   selected = null;
   render();
-  toast('Всё сброшено');
+  toast('Всё сброшено', 'ok');
 }
 
 /* ================= СТАРТ ================= */
