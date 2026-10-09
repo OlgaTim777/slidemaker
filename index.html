@@ -29,7 +29,7 @@
   #app { display: grid; grid-template-columns: 240px 1fr 300px; grid-template-rows: 60px 1fr; height: 100vh; }
 
   header {
-    grid-column: 1 / -1; display: flex; align-items: center; padding: 0 20px; gap: 12px;
+    grid-column: 1 / -1; display: flex; align-items: center; padding: 0 20px; gap: 10px;
     background: rgba(19,22,35,.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--stroke); z-index: 10;
   }
@@ -54,10 +54,13 @@
   .btn-primary:hover { box-shadow: 0 8px 26px rgba(139,92,246,.45); }
   .btn-danger { background: rgba(239,68,68,.15); border-color: rgba(239,68,68,.3); color: #ff8a8a; }
   .btn-danger:hover { background: rgba(239,68,68,.25); }
+  .btn-success { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.3); color: #6ee7b7; }
+  .btn-success:hover { background: rgba(16,185,129,.25); }
   .btn-ghost { background: transparent; border-color: transparent; }
   .btn-ghost:hover { background: rgba(255,255,255,.06); }
   .btn-icon { padding: 8px; width: 34px; height: 34px; justify-content: center; }
   .btn[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
+  .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
 
   aside { background: rgba(19,22,35,.55); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); overflow-y: auto; padding: 16px; display: flex; flex-direction: column; }
   aside.left { border-right: 1px solid var(--stroke); }
@@ -72,16 +75,13 @@
 
   #slidesList { display: flex; flex-direction: column; gap: 8px; }
   .slide-thumb {
-    position: relative; padding: 12px 12px 12px 14px;
+    padding: 12px 12px 12px 14px;
     background: var(--bg-2); border: 1px solid var(--stroke); border-radius: 10px;
     cursor: pointer; transition: all .15s ease;
     display: flex; flex-direction: column; gap: 6px;
   }
   .slide-thumb:hover { background: var(--bg-3); border-color: var(--stroke-2); }
-  .slide-thumb.active {
-    background: linear-gradient(135deg, rgba(139,92,246,.18), rgba(99,102,241,.1));
-    border-color: rgba(139,92,246,.6); box-shadow: 0 4px 20px rgba(139,92,246,.2);
-  }
+  .slide-thumb.active { background: linear-gradient(135deg, rgba(139,92,246,.18), rgba(99,102,241,.1)); border-color: rgba(139,92,246,.6); box-shadow: 0 4px 20px rgba(139,92,246,.2); }
   .slide-thumb .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .slide-thumb .num { display: inline-grid; place-items: center; width: 22px; height: 22px; background: rgba(255,255,255,.08); border-radius: 6px; font-size: 11px; font-weight: 700; color: var(--muted); }
   .slide-thumb.active .num { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; }
@@ -102,19 +102,82 @@
     box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08);
     border-radius: 6px; overflow: hidden; transition: outline .15s ease;
   }
-  #stage.drag-over { outline: 2px dashed var(--accent); outline-offset: 6px; }
+  #stage.drag-over { outline: 3px dashed var(--accent); outline-offset: 6px; }
 
-  .el { position: absolute; cursor: move; min-width: 30px; min-height: 30px; transition: outline .1s ease; }
+  /* ===== ЭЛЕМЕНТЫ ===== */
+  .el { position: absolute; cursor: move; min-width: 30px; min-height: 30px; }
   .el.selected { outline: 2px solid var(--accent); outline-offset: 1px; }
   .el:hover:not(.selected) { outline: 1px dashed rgba(139,92,246,.4); outline-offset: 1px; }
-  .el .resize { position: absolute; right: -7px; bottom: -7px; width: 14px; height: 14px; background: var(--accent); border: 2px solid #fff; border-radius: 50%; cursor: se-resize; box-shadow: 0 2px 8px rgba(139,92,246,.5); }
+  .el .resize {
+    position: absolute; right: -7px; bottom: -7px;
+    width: 14px; height: 14px; background: var(--accent);
+    border: 2px solid #fff; border-radius: 50%; cursor: se-resize;
+    box-shadow: 0 2px 8px rgba(139,92,246,.5); z-index: 10;
+  }
   .el img, .el video { width: 100%; height: 100%; object-fit: contain; pointer-events: none; display: block; }
-  .el iframe { width: 100%; height: 100%; border: none; display: block; background: #f5f5ff; }
   .el audio { width: 100%; }
   .el .txt { padding: 6px; width: 100%; height: 100%; overflow: hidden; font-size: 18px; white-space: pre-wrap; color: #222; }
   .el .btn-shape { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 600; box-shadow: 0 4px 14px rgba(139,92,246,.35); }
   .el .empty-slot { width: 100%; height: 100%; background: repeating-linear-gradient(45deg, #f3f4fb, #f3f4fb 8px, #eef0f9 8px, #eef0f9 16px); display: flex; align-items: center; justify-content: center; color: #8b93a8; font-size: 12px; text-align: center; padding: 10px; border-radius: 6px; }
 
+  .el .iframe-wrap { position: relative; width: 100%; height: 100%; background: #f5f5ff; border-radius: 4px; overflow: hidden; }
+  .el .iframe-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+  .el .iframe-overlay { position: absolute; inset: 0; z-index: 5; cursor: move; background: transparent; }
+  .el.interactive .iframe-overlay { display: none; }
+  .el .lock-btn {
+    position: absolute; top: 6px; right: 6px; z-index: 20;
+    width: 30px; height: 30px; padding: 0; border-radius: 8px;
+    background: rgba(139,92,246,.95); color: #fff; border: none;
+    cursor: pointer; font-size: 14px; display: none;
+    align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  }
+  .el.interactive .lock-btn { display: flex; }
+  .el .drag-hint {
+    position: absolute; top: 6px; left: 6px; z-index: 20;
+    background: rgba(139,92,246,.9); color: #fff; padding: 4px 8px;
+    border-radius: 6px; font-size: 10px; font-weight: 600;
+    pointer-events: none; display: none;
+  }
+  .el:hover .drag-hint { display: block; }
+  .el.interactive .drag-hint { display: none !important; }
+
+  /* ===== QUIZ ЭЛЕМЕНТ НА СЛАЙДЕ ===== */
+  .el .quiz-block {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #fefefe, #f8f9ff);
+    border: 2px solid #e0e4f5;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex; flex-direction: column; gap: 8px;
+    overflow: hidden;
+    font-size: 13px;
+    color: #333;
+  }
+  .el .quiz-block .quiz-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #8b5cf6;
+  }
+  .el .quiz-block .quiz-q {
+    font-weight: 600; font-size: 14px; color: #1a1f30;
+    line-height: 1.4;
+  }
+  .el .quiz-block .quiz-opts { display: flex; flex-direction: column; gap: 5px; flex: 1; overflow-y: auto; }
+  .el .quiz-block .quiz-opt {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px; background: #fff;
+    border: 1.5px solid #e0e4f5; border-radius: 8px;
+    font-size: 12px; color: #333;
+  }
+  .el .quiz-block .quiz-opt .dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid #c4c8e0; flex-shrink: 0;
+    display: grid; place-items: center; font-size: 9px; color: #fff;
+  }
+  .el .quiz-block .quiz-opt.correct .dot { background: #10b981; border-color: #10b981; }
+  .el .quiz-block .quiz-opt.correct { border-color: #10b981; background: #ecfdf5; }
+
+  /* ===== ПАЛИТРА ===== */
   .palette { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .palette-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; background: var(--bg-2); border: 1px solid var(--stroke); border-radius: 10px; cursor: grab; transition: all .15s ease; user-select: none; text-align: center; }
   .palette-item:hover { background: var(--bg-3); border-color: rgba(139,92,246,.5); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.3); }
@@ -145,7 +208,44 @@
   .editor-card .title { font-size: 13px; font-weight: 600; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .editor-card .url { font-size: 11px; color: var(--muted); margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .editor-card .actions { display: flex; gap: 6px; flex-wrap: wrap; }
-  .editor-card .actions .btn { flex: 1; padding: 6px 8px; font-size: 12px; justify-content: center; }
+  .editor-card .actions .btn { flex: 1; padding: 6px 8px; font-size: 12px; justify-content: center; min-width: 70px; }
+
+  /* ===== QUIZ ПАНЕЛЬ ===== */
+  .quiz-choice-list { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-choice-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; background: var(--bg-2);
+    border: 1px solid var(--stroke); border-radius: 8px;
+    transition: all .15s ease;
+  }
+  .quiz-choice-item:hover { border-color: var(--stroke-2); }
+  .quiz-choice-item.is-correct { border-color: #10b981; background: rgba(16,185,129,.08); }
+  .quiz-choice-item input[type="text"] { flex: 1; padding: 6px 8px; background: transparent; border: none; color: var(--text); font: inherit; font-size: 12px; }
+  .quiz-choice-item input[type="text"]:focus { outline: none; }
+  .quiz-choice-item .mark {
+    width: 24px; height: 24px; border-radius: 6px;
+    border: 2px solid #c4c8e0; cursor: pointer;
+    display: grid; place-items: center; font-size: 12px; color: #fff;
+    flex-shrink: 0; transition: all .15s ease;
+  }
+  .quiz-choice-item.is-correct .mark { background: #10b981; border-color: #10b981; }
+  .quiz-choice-item .rm {
+    width: 22px; height: 22px; border-radius: 6px;
+    display: grid; place-items: center; cursor: pointer;
+    color: var(--muted); font-size: 14px; flex-shrink: 0;
+  }
+  .quiz-choice-item .rm:hover { background: rgba(239,68,68,.2); color: #ff8a8a; }
+
+  .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .type-card {
+    padding: 12px 10px; background: var(--bg-2);
+    border: 1.5px solid var(--stroke); border-radius: 10px;
+    cursor: pointer; transition: all .15s ease; text-align: center;
+  }
+  .type-card:hover { background: var(--bg-3); border-color: rgba(139,92,246,.5); }
+  .type-card.active { border-color: var(--accent); background: linear-gradient(135deg, rgba(139,92,246,.15), rgba(99,102,241,.08)); }
+  .type-card .ic { font-size: 20px; margin-bottom: 4px; }
+  .type-card .nm { font-size: 11px; font-weight: 600; color: var(--text); }
 
   .modal-bg { position: fixed; inset: 0; background: rgba(5,7,14,.8); backdrop-filter: blur(8px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 40px; animation: fadeIn .2s ease; }
   .modal-bg.show { display: flex; }
@@ -172,6 +272,19 @@
   .preview-el .btn-shape:active { transform: scale(.97); }
   .preview-nav { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
 
+  /* Плитки выбора способа добавления игры */
+  .game-choices { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 20px; }
+  .game-choice {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px; background: var(--bg-2);
+    border: 1px solid var(--stroke); border-radius: 12px;
+    cursor: pointer; transition: all .15s ease; text-align: left;
+  }
+  .game-choice:hover { background: var(--bg-3); border-color: rgba(139,92,246,.5); transform: translateX(4px); }
+  .game-choice .ic { font-size: 28px; width: 44px; text-align: center; }
+  .game-choice .ttl { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .game-choice .sub { font-size: 12px; color: var(--muted); }
+
   .toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 20px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border-radius: 10px; font-size: 13px; font-weight: 500; box-shadow: 0 12px 40px rgba(139,92,246,.4); opacity: 0; transform: translateY(20px); transition: all .25s ease; pointer-events: none; z-index: 2000; max-width: 340px; }
   .toast.show { opacity: 1; transform: translateY(0); }
   .toast.err { background: linear-gradient(135deg, #ef4444, #b91c1c); box-shadow: 0 12px 40px rgba(239,68,68,.4); }
@@ -192,26 +305,40 @@
   .anim-flip { animation: animFlip var(--dur, 600ms) ease both; }
   .anim-none { animation: animNone var(--dur, 0ms) both; }
 
-  /* ==== Соединение с редактором ==== */
-  .pulse {
-    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 0 rgba(139,92,246,.7);
-    animation: pulse 1.5s infinite;
-    margin-right: 6px;
+  /* ===== ПРОСМОТР QUIZ ===== */
+  .preview-quiz {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #fff, #f8f9ff);
+    border: 2px solid #e0e4f5; border-radius: 12px;
+    padding: 16px; display: flex; flex-direction: column; gap: 10px;
+    font-size: 14px; color: #222; overflow: hidden;
   }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(139,92,246,.7); }
-    70% { box-shadow: 0 0 0 12px rgba(139,92,246,0); }
-    100% { box-shadow: 0 0 0 0 rgba(139,92,246,0); }
+  .preview-quiz .pq-type { font-size: 10px; font-weight: 700; letter-spacing: .8px; color: #8b5cf6; text-transform: uppercase; }
+  .preview-quiz .pq-q { font-weight: 600; font-size: 15px; line-height: 1.4; }
+  .preview-quiz .pq-opts { display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; }
+  .preview-quiz .pq-opt {
+    padding: 8px 12px; background: #fff;
+    border: 1.5px solid #e0e4f5; border-radius: 8px;
+    cursor: pointer; transition: all .15s ease;
+    font-size: 13px; display: flex; align-items: center; gap: 8px;
   }
-  .status {
-    display: flex; align-items: center; gap: 8px; padding: 8px 12px;
-    border-radius: 8px; font-size: 12px; margin-bottom: 8px;
+  .preview-quiz .pq-opt:hover { border-color: #8b5cf6; background: #f5f3ff; }
+  .preview-quiz .pq-opt.picked { border-color: #8b5cf6; background: #ede9fe; }
+  .preview-quiz .pq-opt.correct { border-color: #10b981; background: #ecfdf5; }
+  .preview-quiz .pq-opt.wrong { border-color: #ef4444; background: #fef2f2; }
+  .preview-quiz .pq-input {
+    padding: 8px 12px; border: 1.5px solid #e0e4f5; border-radius: 8px;
+    font-size: 13px; font-family: inherit;
   }
-  .status.pending { background: rgba(139,92,246,.12); color: #c4b5fd; }
-  .status.ok      { background: rgba(16,185,129,.15); color: #6ee7b7; }
-  .status.fail    { background: rgba(239,68,68,.15); color: #fca5a5; }
+  .preview-quiz .pq-input:focus { outline: none; border-color: #8b5cf6; }
+  .preview-quiz .pq-btn {
+    padding: 8px 16px; background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    color: #fff; border: none; border-radius: 8px; cursor: pointer;
+    font-size: 13px; font-weight: 600; align-self: flex-start;
+  }
+  .preview-quiz .pq-fb { font-size: 12px; font-weight: 600; }
+  .preview-quiz .pq-fb.ok { color: #10b981; }
+  .preview-quiz .pq-fb.no { color: #ef4444; }
 </style>
 </head>
 <body>
@@ -242,22 +369,67 @@
   <aside class="right">
     <div class="tabs">
       <button class="tab active" onclick="switchTab('elements')">🧩 Элементы</button>
+      <button class="tab" onclick="switchTab('quiz')">❓ Вопросы</button>
       <button class="tab" onclick="switchTab('editors')">🕹 Редакторы</button>
       <button class="tab" onclick="switchTab('props')">⚙ Свойства</button>
     </div>
-
     <div class="tab-content">
       <div class="tab-pane active" id="tab-elements">
         <div class="panel-title">Перетащите на слайд</div>
         <div class="palette">
-          <div class="palette-item" draggable="true" data-type="text" onclick="addElementAtCenter('text')"><div class="palette-icon">📝</div><div class="palette-label">Текст</div></div>
-          <div class="palette-item" draggable="true" data-type="image" onclick="addElementAtCenter('image')"><div class="palette-icon">🖼</div><div class="palette-label">Картинка / GIF</div></div>
-          <div class="palette-item" draggable="true" data-type="audio" onclick="addElementAtCenter('audio')"><div class="palette-icon">🔊</div><div class="palette-label">Аудио</div></div>
-          <div class="palette-item" draggable="true" data-type="video" onclick="addElementAtCenter('video')"><div class="palette-icon">🎬</div><div class="palette-label">Видео</div></div>
-          <div class="palette-item" draggable="true" data-type="iframe" onclick="addElementAtCenter('iframe')"><div class="palette-icon">🎮</div><div class="palette-label">Игра (iframe)</div></div>
-          <div class="palette-item" draggable="true" data-type="button" onclick="addElementAtCenter('button')"><div class="palette-icon">➡</div><div class="palette-label">Кнопка</div></div>
+          <div class="palette-item" draggable="true" data-type="text" onclick="addElementAtCenter('text')">
+            <div class="palette-icon">📝</div><div class="palette-label">Текст</div>
+          </div>
+          <div class="palette-item" draggable="true" data-type="image" onclick="addElementAtCenter('image')">
+            <div class="palette-icon">🖼</div><div class="palette-label">Картинка / GIF</div>
+          </div>
+          <div class="palette-item" draggable="true" data-type="audio" onclick="addElementAtCenter('audio')">
+            <div class="palette-icon">🔊</div><div class="palette-label">Аудио</div>
+          </div>
+          <div class="palette-item" draggable="true" data-type="video" onclick="addElementAtCenter('video')">
+            <div class="palette-icon">🎬</div><div class="palette-label">Видео</div>
+          </div>
+          <div class="palette-item" draggable="true" data-type="button" onclick="addElementAtCenter('button')">
+            <div class="palette-icon">➡</div><div class="palette-label">Кнопка</div>
+          </div>
+          <div class="palette-item" onclick="openGamePicker()" style="border-color: rgba(139,92,246,.4); background: linear-gradient(135deg, rgba(139,92,246,.15), rgba(99,102,241,.08));">
+            <div class="palette-icon">🎮</div><div class="palette-label">Игра</div>
+          </div>
         </div>
-        <div class="field-hint" style="margin-top:14px;text-align:center">Кликните или перетащите на слайд</div>
+        <div class="field-hint" style="margin-top:14px;text-align:center">
+          Кликните или перетащите на слайд.<br>
+          <b>HTML-файл игры</b> можно перетащить прямо на слайд.
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-quiz">
+        <div class="panel-title">Добавить вопрос</div>
+        <div class="field-hint" style="margin-bottom:12px">
+          Выберите тип вопроса — он появится на слайде и откроется панель настройки.
+        </div>
+        <div class="type-grid">
+          <div class="type-card" onclick="addQuizElement('single')">
+            <div class="ic">⭕</div><div class="nm">Один вариант</div>
+          </div>
+          <div class="type-card" onclick="addQuizElement('multiple')">
+            <div class="ic">☑️</div><div class="nm">Несколько</div>
+          </div>
+          <div class="type-card" onclick="addQuizElement('truefalse')">
+            <div class="ic">⚖️</div><div class="nm">Верно / Неверно</div>
+          </div>
+          <div class="type-card" onclick="addQuizElement('short')">
+            <div class="ic">✏️</div><div class="nm">Короткий ответ</div>
+          </div>
+          <div class="type-card" onclick="addQuizElement('open')">
+            <div class="ic">💬</div><div class="nm">Открытый ответ</div>
+          </div>
+          <div class="type-card" onclick="addQuizElement('survey')">
+            <div class="ic">📊</div><div class="nm">Опрос</div>
+          </div>
+        </div>
+        <div class="field-hint">
+          Настройка вопроса — в правой панели «Свойства» после добавления.
+        </div>
       </div>
 
       <div class="tab-pane" id="tab-editors">
@@ -267,7 +439,7 @@
         </div>
         <div id="editorsList"></div>
         <div class="empty-hint" id="editorsEmpty" style="display:none">
-          Здесь появятся ваши редакторы.<br>
+          Здесь появятся ваши редакторы.<br><br>
           Нажмите <b>＋</b> и укажите ссылку на редактор<br>
           (например, с GitHub Pages).
         </div>
@@ -280,30 +452,64 @@
   </aside>
 </div>
 
-<!-- МОДАЛКА РЕДАКТОРА -->
+<!-- ========== МОДАЛКА: РЕДАКТОР ========== -->
 <div class="modal-bg" id="editorModal">
   <div class="modal">
     <div class="modal-head">
       <span style="font-size:20px">🕹</span>
       <h2 id="editorModalTitle">Редактор</h2>
-      <span id="editorStatus" style="font-size:12px;color:var(--muted)"></span>
       <button class="btn btn-ghost btn-icon" onclick="closeEditorModal()">✕</button>
     </div>
     <div class="modal-body">
-      <iframe id="editorFrame"
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-downloads"></iframe>
+      <iframe id="editorFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-downloads allow-modals"></iframe>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-primary" id="grabFromEditorBtn" onclick="grabGameFromEditor()">
-        🎯 Забрать игру из редактора и вставить на слайд
-      </button>
-      <button class="btn" onclick="promptInsertHtml()">📎 Вставить HTML/ссылку вручную</button>
+      <button class="btn btn-primary" onclick="openGamePicker()">🎮 Вставить игру на слайд</button>
       <button class="btn" onclick="closeEditorModal()">Закрыть</button>
     </div>
   </div>
 </div>
 
-<!-- МОДАЛКА ПРЕВЬЮ -->
+<!-- ========== МОДАЛКА: ВЫБОР СПОСОБА ДОБАВЛЕНИЯ ИГРЫ ========== -->
+<div class="modal-bg" id="gamePickerModal">
+  <div class="modal" style="width:520px">
+    <div class="modal-head">
+      <span style="font-size:20px">🎮</span>
+      <h2>Добавить игру на слайд</h2>
+      <button class="btn btn-ghost btn-icon" onclick="closeGamePicker()">✕</button>
+    </div>
+    <div class="game-choices">
+      <div class="game-choice" onclick="pickHTMLFile()">
+        <div class="ic">📁</div>
+        <div>
+          <div class="ttl">Выбрать HTML-файл с компьютера</div>
+          <div class="sub">Если редактор сохранил игру как файл на ваш компьютер</div>
+        </div>
+      </div>
+      <div class="game-choice" onclick="pickURLLink()">
+        <div class="ic">🔗</div>
+        <div>
+          <div class="ttl">Вставить ссылку на игру</div>
+          <div class="sub">Если игра уже опубликована (например, на GitHub Pages)</div>
+        </div>
+      </div>
+      <div class="game-choice" onclick="pickHTMLCode()">
+        <div class="ic">📋</div>
+        <div>
+          <div class="ttl">Вставить HTML-код игры</div>
+          <div class="sub">Если редактор даёт «скопировать код»</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot" style="border-top:none">
+      <div class="field-hint" style="flex:1;text-align:left;margin:0">
+        💡 Можно также <b>просто перетащить HTML-файл</b> мышкой прямо на слайд.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== МОДАЛКА: ПРЕДПРОСМОТР ========== -->
 <div class="modal-bg" id="previewModal">
   <div class="modal">
     <div class="modal-head">
@@ -324,9 +530,9 @@
   </div>
 </div>
 
-<!-- МОДАЛКА ДОБАВЛЕНИЯ РЕДАКТОРА -->
+<!-- ========== МОДАЛКА: ДОБАВИТЬ РЕДАКТОР ========== -->
 <div class="modal-bg" id="addEditorModal">
-  <div class="modal" style="width:480px">
+  <div class="modal" style="width:500px">
     <div class="modal-head">
       <h2>Добавить редактор</h2>
       <button class="btn btn-ghost btn-icon" onclick="closeAddEditor()">✕</button>
@@ -337,9 +543,9 @@
         <input id="newEditorName" placeholder="Например: Редактор викторин">
       </div>
       <div class="field">
-        <label>Ссылка (URL)</label>
+        <label>Ссылка на редактор (URL)</label>
         <input id="newEditorUrl" placeholder="https://ваш-логин.github.io/редактор/">
-        <div class="field-hint">Ссылка должна открываться в браузере и содержать рабочий редактор игр.</div>
+        <div class="field-hint">Ссылка должна открывать рабочий редактор в браузере.</div>
       </div>
     </div>
     <div class="modal-foot">
@@ -349,54 +555,16 @@
   </div>
 </div>
 
-<!-- МОДАЛКА РУЧНОГО ВСТАВЛЕНИЯ -->
-<div class="modal-bg" id="manualInsertModal">
-  <div class="modal" style="width:560px">
-    <div class="modal-head">
-      <h2>Вставить игру на слайд</h2>
-      <button class="btn btn-ghost btn-icon" onclick="closeManualInsert()">✕</button>
-    </div>
-    <div style="padding:20px">
-      <div id="manualStatus" class="status pending" style="display:none"><span class="pulse"></span><span id="manualStatusText"></span></div>
-
-      <div class="field">
-        <label>Ссылка на игру (постоянная — с GitHub Pages, Netlify и т.п.)</label>
-        <input id="manualUrl" placeholder="https://ваш-логин.github.io/игра/">
-        <div class="field-hint">Если игра где-то уже лежит и открывается в браузере.</div>
-      </div>
-
-      <div style="text-align:center;color:var(--muted);font-size:12px;margin:10px 0">— или —</div>
-
-      <div class="field">
-        <label>HTML-код игры (весь файл целиком)</label>
-        <textarea id="manualHtml" placeholder="&lt;!DOCTYPE html&gt;&#10;&lt;html&gt;...&#10;&lt;/html&gt;" style="min-height:140px"></textarea>
-        <div class="field-hint">Вставьте сюда содержимое файла, который редактор сохранил на ваш компьютер. Можно открыть его в блокноте и скопировать всё.</div>
-      </div>
-
-      <div class="field">
-        <label>…или выберите HTML-файл</label>
-        <input type="file" accept=".html,.htm" onchange="loadHTMLFile(this)">
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeManualInsert()">Отмена</button>
-      <button class="btn btn-primary" onclick="applyManualInsert()">Вставить на слайд</button>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-/* =====================================================
-   СОСТОЯНИЕ
-   ===================================================== */
+/* ================= СОСТОЯНИЕ ================= */
 const STAGE_W = 960, STAGE_H = 540;
 
 const DEFAULT_PROJECT = {
   slides: [{
     id: uid(), name: 'Слайд 1', bg: '#ffffff',
-    transition: { type: 'fade', duration: 500, customCSS: '', customName: '' },
+    transition: { type: 'fade', duration: 500, customCSS: '' },
     elements: []
   }],
   current: 0,
@@ -409,16 +577,13 @@ let draggedType = null;
 let currentEditor = null;
 let previewIndex = 0;
 
-// Состояние запроса к редактору
-let pendingGrab = null; // { resolve, timer, editorId }
-
 function uid() { return Math.random().toString(36).slice(2, 9); }
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
 }
-function save() { localStorage.setItem('quest-studio', JSON.stringify(project)); }
+function save() { try { localStorage.setItem('quest-studio', JSON.stringify(project)); } catch(e) { toast('Проект слишком большой — скачайте его', 'err'); } }
 function load() { try { return JSON.parse(localStorage.getItem('quest-studio')); } catch(e) { return null; } }
 function toast(msg, kind) {
   const t = document.getElementById('toast');
@@ -428,25 +593,21 @@ function toast(msg, kind) {
   t._t = setTimeout(() => t.className = 'toast', 2600);
 }
 
-/* =====================================================
-   ВКЛАДКИ
-   ===================================================== */
+/* ================= ВКЛАДКИ ================= */
 function switchTab(name) {
   document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', ['elements','editors','props'][i] === name);
+    t.classList.toggle('active', ['elements','quiz','editors','props'][i] === name);
   });
   document.querySelectorAll('.tab-pane').forEach(p => {
     p.classList.toggle('active', p.id === 'tab-' + name);
   });
 }
 
-/* =====================================================
-   СЛАЙДЫ
-   ===================================================== */
+/* ================= СЛАЙДЫ ================= */
 function addSlide() {
   project.slides.push({
     id: uid(), name: 'Слайд ' + (project.slides.length + 1), bg: '#ffffff',
-    transition: { type: 'fade', duration: 500, customCSS: '', customName: '' },
+    transition: { type: 'fade', duration: 500, customCSS: '' },
     elements: []
   });
   project.current = project.slides.length - 1;
@@ -465,15 +626,22 @@ function deleteSlide(i, e) {
 }
 function selectSlide(i) { project.current = i; selected = null; render(); save(); }
 
-/* =====================================================
-   ЭЛЕМЕНТЫ
-   ===================================================== */
+/* ================= ЭЛЕМЕНТЫ ================= */
+const QUIZ_DEFAULTS = {
+  single:    { w: 420, h: 260, quizType: 'single',    question: 'Ваш вопрос?', choices: [ {text:'Вариант 1', correct:true}, {text:'Вариант 2', correct:false}, {text:'Вариант 3', correct:false} ], feedbackOk: 'Верно!', feedbackNo: 'Попробуйте ещё', timer: 0, action: 'none', actionSlide: 0 },
+  multiple:  { w: 420, h: 280, quizType: 'multiple',  question: 'Выберите все верные ответы', choices: [ {text:'Вариант 1', correct:true}, {text:'Вариант 2', correct:true}, {text:'Вариант 3', correct:false} ], feedbackOk: 'Верно!', feedbackNo: 'Попробуйте ещё', timer: 0, action: 'none', actionSlide: 0 },
+  truefalse: { w: 380, h: 200, quizType: 'truefalse', question: 'Утверждение верно?', choices: [ {text:'Верно', correct:true}, {text:'Неверно', correct:false} ], feedbackOk: 'Верно!', feedbackNo: 'Неверно', timer: 0, action: 'none', actionSlide: 0 },
+  short:     { w: 380, h: 220, quizType: 'short',     question: 'Введите ответ', answer: '', feedbackOk: 'Верно!', feedbackNo: 'Неверно', timer: 0, action: 'none', actionSlide: 0 },
+  open:      { w: 420, h: 220, quizType: 'open',      question: 'Ваш ответ...', feedbackOk: 'Спасибо за ответ!', feedbackNo: '', timer: 0, action: 'none', actionSlide: 0 },
+  survey:    { w: 420, h: 260, quizType: 'survey',    question: 'Выберите вариант', choices: [ {text:'Вариант 1', correct:false}, {text:'Вариант 2', correct:false}, {text:'Вариант 3', correct:false} ], feedbackOk: 'Спасибо за ответ!', feedbackNo: '', timer: 0, action: 'none', actionSlide: 0 }
+};
+
 const DEFAULTS = {
   text:   { w: 320, h: 80,  text: 'Введите текст', color: '#222222', size: 20 },
   image:  { w: 320, h: 220, src: '' },
   audio:  { w: 340, h: 60,  src: '' },
   video:  { w: 420, h: 240, src: '' },
-  iframe: { w: 520, h: 360, src: '', srcdoc: '' },
+  iframe: { w: 520, h: 360, src: '', srcdoc: '', interactive: false },
   button: { w: 180, h: 55,  text: 'Далее', toSlide: 1 }
 };
 
@@ -488,8 +656,21 @@ function addElement(type, x, y) {
   selected = el.id;
   switchTab('props');
   render(); save();
-  toast('Элемент добавлен', 'ok');
 }
+
+function addQuizElement(quizType) {
+  const d = QUIZ_DEFAULTS[quizType];
+  const el = {
+    id: uid(), type: 'quiz', x: Math.round((STAGE_W - d.w) / 2), y: Math.round((STAGE_H - d.h) / 2),
+    ...JSON.parse(JSON.stringify(d))
+  };
+  project.slides[project.current].elements.push(el);
+  selected = el.id;
+  switchTab('props');
+  render(); save();
+  toast('Вопрос добавлен на слайд', 'ok');
+}
+
 function removeSelected() {
   const s = project.slides[project.current];
   s.elements = s.elements.filter(e => e.id !== selected);
@@ -497,10 +678,9 @@ function removeSelected() {
   render(); save();
 }
 
-/* =====================================================
-   DRAG-AND-DROP ИЗ ПАЛИТРЫ
-   ===================================================== */
+/* ================= DRAG-AND-DROP ================= */
 document.querySelectorAll('.palette-item').forEach(item => {
+  if (!item.dataset.type) return;
   item.addEventListener('dragstart', e => {
     draggedType = item.dataset.type;
     e.dataTransfer.effectAllowed = 'copy';
@@ -508,25 +688,59 @@ document.querySelectorAll('.palette-item').forEach(item => {
   });
   item.addEventListener('dragend', () => { draggedType = null; });
 });
-function setupDropZone() {
+
+function setupStageDrop() {
   const stage = document.getElementById('stage');
-  stage.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; stage.classList.add('drag-over'); });
-  stage.addEventListener('dragleave', e => { if (e.target === stage) stage.classList.remove('drag-over'); });
+  if (!stage) return;
+
+  stage.addEventListener('dragover', e => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+    stage.classList.add('drag-over');
+  });
+  stage.addEventListener('dragleave', e => {
+    if (e.target === stage) stage.classList.remove('drag-over');
+  });
   stage.addEventListener('drop', e => {
     e.preventDefault();
+    e.stopPropagation();
     stage.classList.remove('drag-over');
+    const rect = stage.getBoundingClientRect();
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length) {
+      const file = e.dataTransfer.files[0];
+      if (!file.name.match(/\.html?$/i)) {
+        toast('Перетащите HTML-файл игры (.html)', 'err');
+        return;
+      }
+      const x = Math.max(0, e.clientX - rect.left - 100);
+      const y = Math.max(0, e.clientY - rect.top - 60);
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const s = project.slides[project.current];
+        const el = {
+          id: uid(), type: 'iframe',
+          x: Math.round(x), y: Math.round(y), w: 520, h: 360,
+          src: '', srcdoc: ev.target.result, interactive: false
+        };
+        s.elements.push(el);
+        selected = el.id;
+        renderStage(); renderProps(); save(); switchTab('props');
+        toast('Игра добавлена на слайд', 'ok');
+      };
+      reader.readAsText(file);
+      return;
+    }
+
     const type = e.dataTransfer.getData('text/plain') || draggedType;
     if (!type || !DEFAULTS[type]) return;
-    const rect = stage.getBoundingClientRect();
     const x = Math.max(0, Math.min(STAGE_W - 40, e.clientX - rect.left - 40));
     const y = Math.max(0, Math.min(STAGE_H - 40, e.clientY - rect.top - 20));
     addElement(type, Math.round(x), Math.round(y));
   });
 }
 
-/* =====================================================
-   РЕНДЕР
-   ===================================================== */
+/* ================= РЕНДЕР ================= */
 function render() {
   renderSlidesList();
   renderStage();
@@ -554,7 +768,7 @@ function renderSlidesList() {
 }
 function transitionLabel(t) {
   if (!t) return 'без анимации';
-  const labels = { none:'без анимации', fade:'fade', 'slide-left':'slide ←', 'slide-right':'slide →', 'slide-up':'slide ↑', zoom:'zoom', flip:'flip', custom:'своя' };
+  const labels = { none:'без', fade:'fade', 'slide-left':'slide ←', 'slide-right':'slide →', 'slide-up':'slide ↑', zoom:'zoom', flip:'flip', custom:'своя' };
   return labels[t.type] || 'анимация';
 }
 function renderStage() {
@@ -571,9 +785,49 @@ function renderStage() {
 function renderStageSelection() {
   document.querySelectorAll('#stage .el').forEach(n => n.classList.toggle('selected', n.dataset.id === selected));
 }
+
+/* --- Отрисовка QUIZ на слайде --- */
+function renderQuizEl(el) {
+  const wrap = document.createElement('div');
+  wrap.className = 'quiz-block';
+
+  let typeLabel = { single:'Один вариант', multiple:'Несколько', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' }[el.quizType] || 'Вопрос';
+
+  let html = `<div class="quiz-label">❓ ${typeLabel}</div><div class="quiz-q">${esc(el.question)}</div>`;
+
+  if (el.quizType === 'short') {
+    html += `<div style="padding:8px;background:#f5f6ff;border-radius:6px;font-size:12px;color:#666">
+      <b>Правильный ответ:</b> ${esc(el.answer || '—')}
+    </div>`;
+  } else if (el.quizType === 'open') {
+    html += `<div style="padding:8px;background:#f5f6ff;border-radius:6px;font-size:12px;color:#666">Ученик введёт свой ответ</div>`;
+  } else if (el.choices && el.choices.length) {
+    html += '<div class="quiz-opts">';
+    el.choices.forEach(c => {
+      const mark = c.correct ? '✓' : '';
+      html += `<div class="quiz-opt ${c.correct ? 'correct' : ''}">
+        <div class="dot">${mark}</div>
+        <span>${esc(c.text)}</span>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  if (el.timer && el.timer > 0) {
+    html += `<div style="font-size:11px;color:#c47">⏱ Таймер: ${el.timer} сек</div>`;
+  }
+  if (el.action && el.action !== 'none') {
+    html += `<div style="font-size:11px;color:#666">→ после ответа: ${el.action === 'goto' ? 'слайд ' + (el.actionSlide + 1) : el.action}</div>`;
+  }
+
+  wrap.innerHTML = html;
+  return wrap;
+}
+
 function renderElement(el) {
   const d = document.createElement('div');
   d.className = 'el';
+  if (el.interactive) d.classList.add('interactive');
   d.dataset.id = el.id;
   d.style.cssText = `left:${el.x}px;top:${el.y}px;width:${el.w}px;height:${el.h}px;`;
 
@@ -582,28 +836,55 @@ function renderElement(el) {
   if (el.type === 'audio') inner = el.src ? `<audio controls src="${esc(el.src)}"></audio>` : `<div class="empty-slot">🔊<br>вставьте ссылку на аудио</div>`;
   if (el.type === 'video') inner = el.src ? `<video controls src="${esc(el.src)}"></video>` : `<div class="empty-slot">🎬<br>вставьте ссылку на видео</div>`;
   if (el.type === 'iframe') {
-    if (el.srcdoc) inner = `<iframe srcdoc="${esc(el.srcdoc)}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>`;
-    else if (el.src) inner = `<iframe src="${esc(el.src)}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>`;
-    else inner = `<div class="empty-slot">🎮<br>вставьте ссылку или код игры</div>`;
+    let frame = '';
+    if (el.srcdoc) frame = `<iframe srcdoc="${esc(el.srcdoc)}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>`;
+    else if (el.src) frame = `<iframe src="${esc(el.src)}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>`;
+    else frame = `<div class="empty-slot">🎮<br>вставьте игру</div>`;
+
+    if (el.src || el.srcdoc) {
+      inner = `<div class="iframe-wrap">
+        ${frame}
+        <div class="iframe-overlay"></div>
+        <div class="drag-hint">↕ Тяните мышкой</div>
+        <button class="lock-btn" title="Разблокировать для игры"
+                onclick="event.stopPropagation();toggleInteractive('${el.id}')">🔒</button>
+      </div>`;
+    } else {
+      inner = frame;
+    }
   }
   if (el.type === 'text') inner = `<div class="txt" style="color:${esc(el.color)};font-size:${el.size}px">${esc(el.text)}</div>`;
   if (el.type === 'button') inner = `<div class="btn-shape">${esc(el.text)}</div>`;
+  if (el.type === 'quiz') {
+    d.innerHTML = '';
+    d.appendChild(renderQuizEl(el));
+    d.appendChild(Object.assign(document.createElement('div'), { className: 'resize' }));
+    bindElementDrag(d, el);
+    return d;
+  }
 
   d.innerHTML = inner + `<div class="resize"></div>`;
+  bindElementDrag(d, el);
+  return d;
+}
 
+function bindElementDrag(d, el) {
   d.onmousedown = e => {
     if (e.target.classList.contains('resize')) return;
-    if (el.type === 'iframe' && e.target.tagName === 'IFRAME') return;
+    if (e.target.classList.contains('lock-btn')) return;
+    if (el.type === 'iframe' && e.target.tagName === 'IFRAME' && !el.interactive) return;
     e.stopPropagation();
     selected = el.id;
     switchTab('props');
     renderStageSelection();
     renderProps();
+
     const sx = e.clientX, sy = e.clientY, ox = el.x, oy = el.y;
     const move = ev => {
       el.x = Math.max(0, Math.min(STAGE_W - el.w, ox + ev.clientX - sx));
       el.y = Math.max(0, Math.min(STAGE_H - el.h, oy + ev.clientY - sy));
-      d.style.left = el.x + 'px'; d.style.top = el.y + 'px';
+      d.style.left = el.x + 'px';
+      d.style.top = el.y + 'px';
     };
     const up = () => {
       document.removeEventListener('mousemove', move);
@@ -613,8 +894,8 @@ function renderElement(el) {
     document.addEventListener('mousemove', move);
     document.addEventListener('mouseup', up);
   };
-  const handle = d.querySelector('.resize');
-  handle.onmousedown = e => {
+
+  d.querySelector('.resize').onmousedown = e => {
     e.stopPropagation();
     const sx = e.clientX, sy = e.clientY, ow = el.w, oh = el.h;
     const move = ev => {
@@ -630,12 +911,20 @@ function renderElement(el) {
     document.addEventListener('mousemove', move);
     document.addEventListener('mouseup', up);
   };
-  return d;
 }
 
-/* =====================================================
-   СВОЙСТВА
-   ===================================================== */
+function toggleInteractive(id) {
+  const s = project.slides[project.current];
+  const el = s.elements.find(e => e.id === id);
+  if (!el) return;
+  el.interactive = !el.interactive;
+  renderStage();
+  if (selected === id) renderProps();
+  save();
+  toast(el.interactive ? '🔓 Игра разблокирована' : '🔒 Игра заблокирована', 'ok');
+}
+
+/* ================= СВОЙСТВА ================= */
 function renderProps() {
   const box = document.getElementById('propsBox');
   const slide = project.slides[project.current];
@@ -657,7 +946,8 @@ function renderProps() {
                oninput="updateTransition('duration', +this.value)"></div>
       <div class="field" id="customTransitionField" style="${slide.transition?.type === 'custom' ? '' : 'display:none'}">
         <label>Свой CSS</label>
-        <textarea placeholder=".custom-slide-enter { animation: ...; }" oninput="updateTransition('customCSS', this.value)">${esc(slide.transition?.customCSS || '')}</textarea>
+        <textarea placeholder=".custom-slide-enter { animation: rotateIn 700ms ease both; }&#10;@keyframes rotateIn { from { transform: rotate(-180deg) } to { transform: rotate(0) } }"
+                  oninput="updateTransition('customCSS', this.value)">${esc(slide.transition?.customCSS || '')}</textarea>
         <div class="field-hint">Определите класс <b>.custom-slide-enter</b> с любым animation.</div>
         <input type="file" accept=".css,.txt" onchange="loadCustomCSS(this)" style="margin-top:8px">
       </div>
@@ -665,8 +955,75 @@ function renderProps() {
     return;
   }
 
-  let h = `<div class="panel-title">Элемент: ${typeLabel(el.type)}</div>`;
+  let h = `<div class="panel-title">Элемент: ${typeLabel(el.type, el.quizType)}</div>`;
 
+  /* ---- QUIZ СВОЙСТВА ---- */
+  if (el.type === 'quiz') {
+    const qType = el.quizType;
+
+    h += `<div class="field"><label>Вопрос</label>
+      <textarea oninput="updateQuiz('question', this.value)" style="min-height:60px">${esc(el.question)}</textarea></div>`;
+
+    if (qType === 'short') {
+      h += `<div class="field"><label>Правильный ответ</label>
+        <input value="${esc(el.answer || '')}" placeholder="Введите правильный ответ"
+               oninput="updateQuiz('answer', this.value)">
+        <div class="field-hint">Проверка регистронезависимая, лишние пробелы игнорируются.</div>
+      </div>`;
+    }
+
+    if (['single','multiple','truefalse','survey'].includes(qType)) {
+      h += `<div class="panel-title" style="margin-top:16px">Варианты ответа</div>`;
+      h += `<div class="quiz-choice-list" id="quizChoices">`;
+      el.choices.forEach((c, i) => {
+        const canMarkCorrect = qType !== 'survey';
+        h += `<div class="quiz-choice-item ${c.correct ? 'is-correct' : ''}">
+          <div class="mark" ${canMarkCorrect ? `onclick="toggleChoiceCorrect(${i})"` : ''} style="${!canMarkCorrect ? 'opacity:.3;cursor:default' : ''}">${c.correct ? '✓' : ''}</div>
+          <input type="text" value="${esc(c.text)}" oninput="updateChoice(${i}, 'text', this.value)">
+          <div class="rm" onclick="removeChoice(${i})">✕</div>
+        </div>`;
+      });
+      h += `</div>`;
+      h += `<button class="btn btn-sm" style="width:100%;justify-content:center;margin-top:8px" onclick="addChoice()">＋ Добавить вариант</button>`;
+      if (qType === 'single' || qType === 'truefalse') {
+        h += `<div class="field-hint" style="margin-top:8px">Нажмите на квадратик слева, чтобы отметить правильный ответ (только один).</div>`;
+      } else if (qType === 'multiple') {
+        h += `<div class="field-hint" style="margin-top:8px">Можно отметить несколько правильных ответов.</div>`;
+      } else {
+        h += `<div class="field-hint" style="margin-top:8px">В опросе нет правильных ответов — это голосование.</div>`;
+      }
+    }
+
+    h += `<div class="panel-title" style="margin-top:20px">Обратная связь</div>`;
+    if (qType !== 'open' && qType !== 'survey') {
+      h += `<div class="field"><label>Сообщение при верном ответе</label>
+        <input value="${esc(el.feedbackOk || '')}" oninput="updateQuiz('feedbackOk', this.value)"></div>`;
+      h += `<div class="field"><label>Сообщение при неверном ответе</label>
+        <input value="${esc(el.feedbackNo || '')}" oninput="updateQuiz('feedbackNo', this.value)"></div>`;
+    } else {
+      h += `<div class="field"><label>Сообщение после ответа</label>
+        <input value="${esc(el.feedbackOk || '')}" oninput="updateQuiz('feedbackOk', this.value)"></div>`;
+    }
+
+    h += `<div class="panel-title" style="margin-top:20px">Дополнительно</div>`;
+    h += `<div class="field"><label>Таймер (секунд, 0 = без таймера)</label>
+      <input type="number" min="0" max="600" value="${el.timer || 0}" oninput="updateQuiz('timer', +this.value)"></div>`;
+
+    h += `<div class="field"><label>После ответа</label>
+      <select onchange="updateQuiz('action', this.value)">
+        <option value="none" ${el.action === 'none' ? 'selected' : ''}>Остаться на слайде</option>
+        <option value="next" ${el.action === 'next' ? 'selected' : ''}>Перейти на следующий слайд</option>
+        <option value="goto" ${el.action === 'goto' ? 'selected' : ''}>Перейти на конкретный слайд</option>
+      </select></div>`;
+    if (el.action === 'goto') {
+      h += `<div class="field"><label>На какой слайд</label>
+        <select onchange="updateQuiz('actionSlide', +this.value)">
+          ${project.slides.map((s, i) => `<option value="${i}" ${el.actionSlide === i ? 'selected' : ''}>${i + 1}. ${esc(s.name)}</option>`).join('')}
+        </select></div>`;
+    }
+  }
+
+  /* ---- ОСТАЛЬНЫЕ ЭЛЕМЕНТЫ ---- */
   if (['image','audio','video'].includes(el.type)) {
     h += `<div class="field"><label>Ссылка (URL)</label>
       <input value="${esc(el.src)}" placeholder="https://..." oninput="updateEl('src', this.value)">
@@ -675,12 +1032,19 @@ function renderProps() {
   if (el.type === 'iframe') {
     h += `<div class="field"><label>Ссылка на игру</label>
       <input value="${esc(el.src || '')}" placeholder="https://..."
-             oninput="updateEl('src', this.value); updateEl('srcdoc', '')">
-      <div class="field-hint">Если игра лежит по постоянному адресу.</div></div>`;
+             oninput="updateEl('src', this.value); updateEl('srcdoc', '')"></div>`;
     h += `<div class="field"><label>…или HTML-код игры</label>
       <textarea placeholder="&lt;!DOCTYPE html&gt;..."
-                oninput="updateEl('srcdoc', this.value); updateEl('src', '')">${esc(el.srcdoc || '')}</textarea>
-      <div class="field-hint">Если ссылка вида blob:... не работает — вставьте сюда весь HTML.</div></div>`;
+                oninput="updateEl('srcdoc', this.value); updateEl('src', '')">${esc(el.srcdoc || '')}</textarea></div>`;
+    h += `<div style="padding:10px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:8px;margin-bottom:14px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px">
+        ${el.interactive ? '🔓 Игра активна — можно играть в редакторе.' : '🔒 Игра заблокирована — тяните её мышкой.'}
+      </div>
+      <button class="btn ${el.interactive ? 'btn-success' : ''}" style="width:100%;justify-content:center"
+              onclick="toggleInteractive('${el.id}')">
+        ${el.interactive ? '🔒 Заблокировать' : '🔓 Разблокировать для игры'}
+      </button>
+    </div>`;
   }
   if (el.type === 'text') {
     h += `<div class="field"><label>Текст</label>
@@ -714,7 +1078,11 @@ function renderProps() {
 
   box.innerHTML = h;
 }
-function typeLabel(t) {
+
+function typeLabel(t, qt) {
+  if (t === 'quiz') {
+    return { single:'Вопрос (один вариант)', multiple:'Вопрос (несколько)', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' }[qt] || 'Вопрос';
+  }
   return { text:'Текст', image:'Картинка', audio:'Аудио', video:'Видео', iframe:'Игра', button:'Кнопка' }[t] || t;
 }
 function transitionOptions(cur) {
@@ -736,10 +1104,57 @@ function updateEl(key, val) {
   } else { renderStage(); }
   save();
 }
+
+/* ---- QUIZ обновления ---- */
+function updateQuiz(key, val) {
+  const s = project.slides[project.current];
+  const el = s.elements.find(e => e.id === selected);
+  if (!el) return;
+  el[key] = val;
+  if (key === 'action') renderProps();
+  else { renderStage(); }
+  save();
+}
+function updateChoice(i, key, val) {
+  const s = project.slides[project.current];
+  const el = s.elements.find(e => e.id === selected);
+  if (!el || !el.choices) return;
+  el.choices[i][key] = val;
+  save();
+}
+function toggleChoiceCorrect(i) {
+  const s = project.slides[project.current];
+  const el = s.elements.find(e => e.id === selected);
+  if (!el || !el.choices) return;
+  const qType = el.quizType;
+  if (qType === 'single' || qType === 'truefalse') {
+    el.choices.forEach((c, idx) => { c.correct = idx === i; });
+  } else if (qType === 'multiple') {
+    el.choices[i].correct = !el.choices[i].correct;
+  }
+  renderStage(); renderProps(); save();
+}
+function addChoice() {
+  const s = project.slides[project.current];
+  const el = s.elements.find(e => e.id === selected);
+  if (!el || !el.choices) return;
+  if (el.choices.length >= 8) return toast('Максимум 8 вариантов', 'err');
+  el.choices.push({ text: 'Новый вариант ' + (el.choices.length + 1), correct: false });
+  renderStage(); renderProps(); save();
+}
+function removeChoice(i) {
+  const s = project.slides[project.current];
+  const el = s.elements.find(e => e.id === selected);
+  if (!el || !el.choices) return;
+  if (el.choices.length <= 2) return toast('Минимум 2 варианта', 'err');
+  el.choices.splice(i, 1);
+  renderStage(); renderProps(); save();
+}
+
 function updateSlide(key, val) { project.slides[project.current][key] = val; render(); }
 function updateTransition(key, val) {
   const s = project.slides[project.current];
-  if (!s.transition) s.transition = { type:'fade', duration:500, customCSS:'', customName:'' };
+  if (!s.transition) s.transition = { type:'fade', duration:500, customCSS:'' };
   s.transition[key] = val;
   if (key === 'type') renderProps();
   save();
@@ -752,9 +1167,7 @@ function loadCustomCSS(input) {
   reader.readAsText(file);
 }
 
-/* =====================================================
-   РЕДАКТОРЫ
-   ===================================================== */
+/* ================= РЕДАКТОРЫ ================= */
 function renderEditors() {
   const box = document.getElementById('editorsList');
   const empty = document.getElementById('editorsEmpty');
@@ -799,7 +1212,6 @@ function openEditorModal(id) {
   if (!ed) return;
   currentEditor = ed;
   document.getElementById('editorModalTitle').textContent = ed.name;
-  document.getElementById('editorStatus').textContent = '';
   document.getElementById('editorFrame').src = ed.url;
   document.getElementById('editorModal').classList.add('show');
 }
@@ -807,170 +1219,64 @@ function closeEditorModal() {
   document.getElementById('editorModal').classList.remove('show');
   document.getElementById('editorFrame').src = '';
   currentEditor = null;
-  // отменяем ожидание
-  if (pendingGrab) {
-    clearTimeout(pendingGrab.timer);
-    pendingGrab = null;
-  }
 }
 function insertEditorUrlById(id) {
   const ed = project.editors.find(e => e.id === id);
   if (!ed) return;
-  const s = project.slides[project.current];
-  const el = { id: uid(), type: 'iframe', x: 60, y: 60, w: 520, h: 360, src: ed.url, srcdoc: '' };
-  s.elements.push(el);
-  selected = el.id;
-  renderStage(); renderProps(); save(); switchTab('props');
+  insertGameOnSlide({ src: ed.url });
   toast('Редактор вставлен на слайд', 'ok');
 }
 
-/* =====================================================
-   ⭐ ГЛАВНОЕ: ЗАБРАТЬ ИГРУ ИЗ РЕДАКТОРА
-   ===================================================== */
+/* ================= ДОБАВИТЬ ИГРУ ================= */
+function openGamePicker() { document.getElementById('gamePickerModal').classList.add('show'); }
+function closeGamePicker() { document.getElementById('gamePickerModal').classList.remove('show'); }
 
-function grabGameFromEditor() {
-  if (!currentEditor) return toast('Сначала откройте редактор', 'err');
-
-  const frame = document.getElementById('editorFrame');
-  const status = document.getElementById('editorStatus');
-  const btn = document.getElementById('grabFromEditorBtn');
-
-  btn.disabled = true;
-  status.innerHTML = '<span class="pulse"></span>Спрашиваю у редактора…';
-
-  // Готовим ожидание ответа
-  if (pendingGrab) {
-    clearTimeout(pendingGrab.timer);
-  }
-
-  pendingGrab = {
-    editorId: currentEditor.id,
-    timer: setTimeout(() => {
-      // Не дождались — показываем ручное окно
-      pendingGrab = null;
-      btn.disabled = false;
-      status.textContent = '';
-      openManualInsert({
-        reason: 'Редактор не ответил на запрос. Возможно, он ещё не умеет передавать игру автоматически — используйте ручной способ.'
-      });
-    }, 2000)
+function pickHTMLFile() {
+  closeGamePicker();
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.html,.htm';
+  input.onchange = () => {
+    const file = input.files?.[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      insertGameOnSlide({ srcdoc: e.target.result });
+      closeEditorModal();
+      toast('Игра добавлена на слайд', 'ok');
+    };
+    reader.readAsText(file);
   };
-
-  try {
-    // Отправляем запрос внутрь редактора
-    frame.contentWindow.postMessage(
-      { type: 'quest-builder:get-game', from: 'quest-studio' },
-      '*'
-    );
-  } catch (err) {
-    // Если iframe ещё не загрузился или заблокирован
-    clearTimeout(pendingGrab.timer);
-    pendingGrab = null;
-    btn.disabled = false;
-    status.textContent = '';
-    openManualInsert({ reason: 'Не удалось связаться с редактором напрямую.' });
-  }
+  input.click();
 }
-
-// Слушаем ответ от редактора
-window.addEventListener('message', (event) => {
-  const data = event.data;
-  if (!data || typeof data !== 'object') return;
-
-  // Редактор прислал игру
-  if (data.type === 'quest-builder:game') {
-    if (!pendingGrab) return; // не ждали — игнорируем
-    clearTimeout(pendingGrab.timer);
-    pendingGrab = null;
-
-    const btn = document.getElementById('grabFromEditorBtn');
-    const status = document.getElementById('editorStatus');
-    if (btn) btn.disabled = false;
-    if (status) status.textContent = '';
-
-    // Что пришло — html или url?
-    if (data.html) {
-      insertGameOnSlide({ srcdoc: data.html });
-      closeEditorModal();
-      toast('Игра вставлена на слайд', 'ok');
-    } else if (data.url) {
-      insertGameOnSlide({ src: data.url });
-      closeEditorModal();
-      toast('Игра вставлена по ссылке', 'ok');
-    } else {
-      toast('Редактор ответил, но игра пустая', 'err');
-    }
-    return;
-  }
-
-  // Редактор сообщил об ошибке
-  if (data.type === 'quest-builder:game-error') {
-    if (!pendingGrab) return;
-    clearTimeout(pendingGrab.timer);
-    pendingGrab = null;
-    const btn = document.getElementById('grabFromEditorBtn');
-    if (btn) btn.disabled = false;
-    document.getElementById('editorStatus').textContent = '';
-    openManualInsert({ reason: data.message || 'Редактор вернул ошибку.' });
-  }
-});
+function pickURLLink() {
+  closeGamePicker();
+  const url = prompt('Вставьте ссылку на игру (например, с GitHub Pages):');
+  if (!url) return;
+  insertGameOnSlide({ src: url.trim() });
+  closeEditorModal();
+  toast('Игра добавлена на слайд', 'ok');
+}
+function pickHTMLCode() {
+  closeGamePicker();
+  const code = prompt('Вставьте HTML-код игры:');
+  if (!code) return;
+  insertGameOnSlide({ srcdoc: code });
+  closeEditorModal();
+  toast('Игра добавлена на слайд', 'ok');
+}
 
 function insertGameOnSlide({ srcdoc, src }) {
   const s = project.slides[project.current];
   const el = {
-    id: uid(),
-    type: 'iframe',
-    x: Math.round((STAGE_W - 520) / 2),
-    y: Math.round((STAGE_H - 360) / 2),
-    w: 520, h: 360,
-    src: src || '',
-    srcdoc: srcdoc || ''
+    id: uid(), type: 'iframe',
+    x: Math.round((STAGE_W - 520) / 2), y: Math.round((STAGE_H - 360) / 2),
+    w: 520, h: 360, src: src || '', srcdoc: srcdoc || '', interactive: false
   };
   s.elements.push(el);
   selected = el.id;
   renderStage(); renderProps(); save(); switchTab('props');
 }
 
-/* =====================================================
-   РУЧНОЕ ВСТАВЛЕНИЕ (фолбэк)
-   ===================================================== */
-function openManualInsert({ reason } = {}) {
-  const m = document.getElementById('manualInsertModal');
-  const st = document.getElementById('manualStatus');
-  const stText = document.getElementById('manualStatusText');
-  if (reason) { st.style.display = 'flex'; stText.textContent = reason; }
-  else st.style.display = 'none';
-  document.getElementById('manualUrl').value = '';
-  document.getElementById('manualHtml').value = '';
-  m.classList.add('show');
-}
-function closeManualInsert() { document.getElementById('manualInsertModal').classList.remove('show'); }
-function loadHTMLFile(input) {
-  const file = input.files?.[0];
-  if (!file) return;
-  const r = new FileReader();
-  r.onload = e => { document.getElementById('manualHtml').value = e.target.result; };
-  r.readAsText(file);
-}
-function applyManualInsert() {
-  const url = document.getElementById('manualUrl').value.trim();
-  const html = document.getElementById('manualHtml').value.trim();
-  if (url) { insertGameOnSlide({ src: url }); }
-  else if (html) { insertGameOnSlide({ srcdoc: html }); }
-  else return toast('Заполните ссылку или вставьте HTML', 'err');
-  closeManualInsert();
-  if (currentEditor) closeEditorModal();
-  toast('Игра вставлена на слайд', 'ok');
-}
-
-// Оставляем старую кнопку «вставить вручную» — теперь она вызывает новое окно
-function promptInsertHtml() {
-  openManualInsert({ reason: 'Вы можете вставить ссылку на игру или её HTML-код.' });
-}
-
-/* =====================================================
-   ПРЕДПРОСМОТР
-   ===================================================== */
+/* ================= ПРЕДПРОСМОТР ================= */
 function openPreview() {
   previewIndex = 0;
   document.getElementById('previewModal').classList.add('show');
@@ -985,6 +1291,88 @@ function previewNav(dir) {
   if (n < 0 || n >= project.slides.length) return;
   showPreviewSlide(n, true);
 }
+
+function buildPreviewQuiz(el) {
+  const wrap = document.createElement('div');
+  wrap.className = 'preview-quiz';
+  const typeLabelMap = { single:'Один вариант', multiple:'Несколько', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' };
+  let h = `<div class="pq-type">❓ ${typeLabelMap[el.quizType] || ''}</div><div class="pq-q">${esc(el.question)}</div>`;
+
+  if (el.quizType === 'short') {
+    h += `<input class="pq-input" id="pq-${el.id}" placeholder="Введите ответ...">`;
+    h += `<button class="pq-btn" onclick="checkShort('${el.id}', '${esc(el.answer || '')}', '${esc(el.feedbackOk || 'Верно!')}', '${esc(el.feedbackNo || 'Неверно')}')">Проверить</button>`;
+    h += `<div class="pq-fb" id="pq-fb-${el.id}"></div>`;
+  } else if (el.quizType === 'open') {
+    h += `<textarea class="pq-input" rows="3" placeholder="Ваш ответ..."></textarea>`;
+    h += `<button class="pq-btn" onclick="this.nextElementSibling.textContent='${esc(el.feedbackOk || 'Спасибо за ответ!')}'; this.nextElementSibling.className='pq-fb ok'">Отправить</button>`;
+    h += `<div class="pq-fb"></div>`;
+  } else if (el.choices && el.choices.length) {
+    h += `<div class="pq-opts" id="pq-opts-${el.id}">`;
+    el.choices.forEach((c, i) => {
+      h += `<div class="pq-opt" data-i="${i}" onclick="pickQuizOption('${el.id}', ${i})">${esc(c.text)}</div>`;
+    });
+    h += `</div>`;
+    h += `<button class="pq-btn" onclick="checkQuizChoice('${el.id}', '${el.quizType}', '${esc(el.feedbackOk || 'Верно!')}', '${esc(el.feedbackNo || 'Неверно')}')">Ответить</button>`;
+    h += `<div class="pq-fb" id="pq-fb-${el.id}"></div>`;
+  }
+  wrap.innerHTML = h;
+  return wrap;
+}
+
+window._quizPicks = window._quizPicks || {};
+function pickQuizOption(elId, i) {
+  const box = document.getElementById('pq-opts-' + elId);
+  if (!box) return;
+  const el = findQuizById(elId);
+  if (!el) return;
+  if (!window._quizPicks[elId]) window._quizPicks[elId] = [];
+  if (el.quizType === 'multiple') {
+    const idx = window._quizPicks[elId].indexOf(i);
+    if (idx >= 0) window._quizPicks[elId].splice(idx, 1); else window._quizPicks[elId].push(i);
+  } else {
+    window._quizPicks[elId] = [i];
+  }
+  box.querySelectorAll('.pq-opt').forEach((n, idx) => {
+    n.classList.toggle('picked', window._quizPicks[elId].includes(idx));
+  });
+}
+function findQuizById(elId) {
+  for (const s of project.slides) {
+    const found = s.elements.find(e => e.id === elId);
+    if (found) return found;
+  }
+  return null;
+}
+function checkQuizChoice(elId, qType, okMsg, noMsg) {
+  const el = findQuizById(elId);
+  if (!el) return;
+  const picks = window._quizPicks[elId] || [];
+  const fb = document.getElementById('pq-fb-' + elId);
+  if (qType === 'survey') { fb.textContent = okMsg; fb.className = 'pq-fb ok'; return; }
+  const correctIdx = el.choices.map((c, i) => c.correct ? i : -1).filter(i => i >= 0);
+  let isCorrect = false;
+  if (qType === 'single' || qType === 'truefalse') isCorrect = picks.length === 1 && correctIdx.includes(picks[0]);
+  else if (qType === 'multiple') isCorrect = picks.length === correctIdx.length && correctIdx.every(i => picks.includes(i));
+  const box = document.getElementById('pq-opts-' + elId);
+  box.querySelectorAll('.pq-opt').forEach((n, i) => {
+    n.classList.remove('picked');
+    if (correctIdx.includes(i)) n.classList.add('correct');
+    else if (picks.includes(i)) n.classList.add('wrong');
+  });
+  fb.textContent = isCorrect ? okMsg : noMsg;
+  fb.className = 'pq-fb ' + (isCorrect ? 'ok' : 'no');
+  if (isCorrect && el.action === 'next') setTimeout(() => previewNav(1), 800);
+  if (isCorrect && el.action === 'goto') setTimeout(() => { previewIndex = el.actionSlide; showPreviewSlide(el.actionSlide, true); }, 800);
+}
+function checkShort(elId, ans, okMsg, noMsg) {
+  const inp = document.getElementById('pq-' + elId);
+  const fb = document.getElementById('pq-fb-' + elId);
+  const v = (inp.value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  const correct = (ans || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  if (v === correct) { fb.textContent = okMsg; fb.className = 'pq-fb ok'; }
+  else { fb.textContent = noMsg; fb.className = 'pq-fb no'; }
+}
+
 function showPreviewSlide(index, animate) {
   const s = project.slides[index];
   previewIndex = index;
@@ -994,11 +1382,17 @@ function showPreviewSlide(index, animate) {
   wrap.innerHTML = '';
   const slideEl = document.createElement('div');
   slideEl.style.cssText = `position:absolute;inset:0;background:${s.bg};overflow:hidden;`;
-  slideEl.className = 'preview-slide';
   s.elements.forEach(el => {
     const d = document.createElement('div');
     d.className = 'preview-el';
     d.style.cssText = `left:${el.x}px;top:${el.y}px;width:${el.w}px;height:${el.h}px;`;
+
+    if (el.type === 'quiz') {
+      d.appendChild(buildPreviewQuiz(el));
+      slideEl.appendChild(d);
+      return;
+    }
+
     let inner = '';
     if (el.type === 'image') inner = el.src ? `<img src="${esc(el.src)}">` : '';
     if (el.type === 'audio') inner = el.src ? `<audio controls src="${esc(el.src)}"></audio>` : '';
@@ -1034,9 +1428,7 @@ function showPreviewSlide(index, animate) {
   document.getElementById('previewCounter').textContent = (index + 1) + ' / ' + project.slides.length;
 }
 
-/* =====================================================
-   ЭКСПОРТ
-   ===================================================== */
+/* ================= ЭКСПОРТ ================= */
 function exportQuest() {
   const html = buildStandaloneQuest(project);
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -1050,7 +1442,7 @@ function exportQuest() {
 function buildStandaloneQuest(proj) {
   const slidesData = proj.slides.map(s => ({
     id: s.id, name: s.name, bg: s.bg,
-    transition: s.transition || { type: 'fade', duration: 500, customCSS: '', customName: '' },
+    transition: s.transition || { type: 'fade', duration: 500, customCSS: '' },
     elements: s.elements
   }));
   const customCSS = slidesData.filter(s => s.transition.type === 'custom' && s.transition.customCSS).map(s => s.transition.customCSS).join('\n');
@@ -1087,6 +1479,21 @@ function buildStandaloneQuest(proj) {
   .anim-zoom{animation:animZoom var(--dur,500ms) cubic-bezier(.2,.9,.3,1.2) both}
   .anim-flip{animation:animFlip var(--dur,600ms) ease both}
   .anim-none{animation:animNone var(--dur,0ms) both}
+  .pq{width:100%;height:100%;background:linear-gradient(135deg,#fff,#f8f9ff);border:2px solid #e0e4f5;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;font-size:14px;color:#222;overflow:hidden}
+  .pq-type{font-size:10px;font-weight:700;letter-spacing:.8px;color:#8b5cf6;text-transform:uppercase}
+  .pq-q{font-weight:600;font-size:15px;line-height:1.4}
+  .pq-opts{display:flex;flex-direction:column;gap:6px;flex:1;overflow-y:auto}
+  .pq-opt{padding:8px 12px;background:#fff;border:1.5px solid #e0e4f5;border-radius:8px;cursor:pointer;transition:all .15s ease;font-size:13px;display:flex;align-items:center;gap:8px}
+  .pq-opt:hover{border-color:#8b5cf6;background:#f5f3ff}
+  .pq-opt.picked{border-color:#8b5cf6;background:#ede9fe}
+  .pq-opt.correct{border-color:#10b981;background:#ecfdf5}
+  .pq-opt.wrong{border-color:#ef4444;background:#fef2f2}
+  .pq-input{padding:8px 12px;border:1.5px solid #e0e4f5;border-radius:8px;font-size:13px;font-family:inherit}
+  .pq-input:focus{outline:none;border-color:#8b5cf6}
+  .pq-btn{padding:8px 16px;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;align-self:flex-start}
+  .pq-fb{font-size:12px;font-weight:600}
+  .pq-fb.ok{color:#10b981}
+  .pq-fb.no{color:#ef4444}
   ${customCSS}
 </style></head><body>
 <div id="stage"></div>
@@ -1094,6 +1501,7 @@ function buildStandaloneQuest(proj) {
 <script>
 const P = ${JSON.stringify({ slides: slidesData })};
 let cur = 0;
+window._qp = {};
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function showSlide(i,animate){
   const s = P.slides[i]; if(!s) return;
@@ -1104,14 +1512,12 @@ function showSlide(i,animate){
   s.elements.forEach(el=>{
     const d = document.createElement('div'); d.className = 'el';
     d.style.cssText = 'left:'+el.x+'px;top:'+el.y+'px;width:'+el.w+'px;height:'+el.h+'px;';
+    if(el.type==='quiz'){ d.appendChild(buildQuiz(el)); slide.appendChild(d); return; }
     let inner = '';
     if(el.type==='image') inner = el.src ? '<img src="'+esc(el.src)+'">' : '';
     if(el.type==='audio') inner = el.src ? '<audio controls src="'+esc(el.src)+'"></audio>' : '';
     if(el.type==='video') inner = el.src ? '<video controls src="'+esc(el.src)+'"></video>' : '';
-    if(el.type==='iframe'){
-      if(el.srcdoc) inner = '<iframe srcdoc="'+esc(el.srcdoc)+'" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>';
-      else if(el.src) inner = '<iframe src="'+esc(el.src)+'" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>';
-    }
+    if(el.type==='iframe'){ if(el.srcdoc) inner = '<iframe srcdoc="'+esc(el.srcdoc)+'" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>'; else if(el.src) inner = '<iframe src="'+esc(el.src)+'" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>'; }
     if(el.type==='text') inner = '<div class="txt" style="color:'+esc(el.color)+';font-size:'+el.size+'px">'+esc(el.text)+'</div>';
     if(el.type==='button'){ inner = '<div class="btn-shape">'+esc(el.text)+'</div>'; d.onclick = ()=>showSlide(el.toSlide||0,true); d.style.cursor='pointer'; }
     d.innerHTML = inner; slide.appendChild(d);
@@ -1124,17 +1530,65 @@ function showSlide(i,animate){
     else { slide.style.setProperty('--dur', dur+'ms'); slide.classList.add('anim-'+(t.type||'fade')); }
   }
 }
+function buildQuiz(el){
+  const w = document.createElement('div'); w.className='pq';
+  const tl = { single:'Один вариант', multiple:'Несколько', truefalse:'Верно/Неверно', short:'Короткий ответ', open:'Открытый ответ', survey:'Опрос' };
+  let h = '<div class="pq-type">❓ '+(tl[el.quizType]||'')+'</div><div class="pq-q">'+esc(el.question)+'</div>';
+  if(el.quizType==='short'){
+    h += '<input class="pq-input" id="s-'+el.id+'" placeholder="Введите ответ...">';
+    h += '<button class="pq-btn" onclick="checkShort(\\''+el.id+'\\',\\''+esc(el.answer||'')+'\\',\\''+esc(el.feedbackOk||'Верно!')+'\\',\\''+esc(el.feedbackNo||'Неверно')+'\\')">Проверить</button>';
+    h += '<div class="pq-fb" id="f-'+el.id+'"></div>';
+  } else if(el.quizType==='open'){
+    h += '<textarea class="pq-input" rows="3" placeholder="Ваш ответ..."></textarea>';
+    h += '<button class="pq-btn" onclick="this.nextElementSibling.textContent=\\''+esc(el.feedbackOk||'Спасибо за ответ!')+'\\';this.nextElementSibling.className=\\'pq-fb ok\\'">Отправить</button>';
+    h += '<div class="pq-fb"></div>';
+  } else if(el.choices){
+    h += '<div class="pq-opts" id="o-'+el.id+'">';
+    el.choices.forEach((c,i)=>{ h += '<div class="pq-opt" data-i="'+i+'" onclick="pick(\\''+el.id+'\\','+i+',\\''+el.quizType+'\\')">'+esc(c.text)+'</div>'; });
+    h += '</div>';
+    h += '<button class="pq-btn" onclick="check(\\''+el.id+'\\',\\''+el.quizType+'\\',\\''+esc(el.feedbackOk||'Верно!')+'\\',\\''+esc(el.feedbackNo||'Неверно')+'\\')">Ответить</button>';
+    h += '<div class="pq-fb" id="f-'+el.id+'"></div>';
+  }
+  w.innerHTML = h; return w;
+}
+function findQ(id){ for(const s of P.slides){ const f = s.elements.find(e=>e.id===id); if(f) return f; } return null; }
+function pick(id,i,qt){
+  const b = document.getElementById('o-'+id); if(!b) return;
+  if(!window._qp[id]) window._qp[id]=[];
+  if(qt==='multiple'){ const k=window._qp[id].indexOf(i); if(k>=0) window._qp[id].splice(k,1); else window._qp[id].push(i); }
+  else window._qp[id]=[i];
+  b.querySelectorAll('.pq-opt').forEach((n,idx)=>n.classList.toggle('picked', window._qp[id].includes(idx)));
+}
+function check(id,qt,ok,no){
+  const el = findQ(id); if(!el) return;
+  const picks = window._qp[id]||[];
+  const fb = document.getElementById('f-'+id);
+  if(qt==='survey'){ fb.textContent=ok; fb.className='pq-fb ok'; return; }
+  const correct = el.choices.map((c,i)=>c.correct?i:-1).filter(i=>i>=0);
+  let isC=false;
+  if(qt==='single'||qt==='truefalse') isC = picks.length===1 && correct.includes(picks[0]);
+  else if(qt==='multiple') isC = picks.length===correct.length && correct.every(i=>picks.includes(i));
+  const b = document.getElementById('o-'+id);
+  b.querySelectorAll('.pq-opt').forEach((n,i)=>{ n.classList.remove('picked'); if(correct.includes(i)) n.classList.add('correct'); else if(picks.includes(i)) n.classList.add('wrong'); });
+  fb.textContent = isC ? ok : no; fb.className = 'pq-fb '+(isC?'ok':'no');
+  if(isC && el.action==='next') setTimeout(()=>nav(1), 800);
+  if(isC && el.action==='goto') setTimeout(()=>{ showSlide(el.actionSlide,true); }, 800);
+}
+function checkShort(id,ans,ok,no){
+  const inp = document.getElementById('s-'+id); const fb = document.getElementById('f-'+id);
+  const v = (inp.value||'').trim().toLowerCase().replace(/\\s+/g,' ');
+  const c = (ans||'').trim().toLowerCase().replace(/\\s+/g,' ');
+  if(v===c){ fb.textContent=ok; fb.className='pq-fb ok'; } else { fb.textContent=no; fb.className='pq-fb no'; }
+}
 function nav(dir){ const n = cur+dir; if(n<0||n>=P.slides.length) return; showSlide(n,true); }
 showSlide(0,false);
 document.addEventListener('keydown', e=>{ if(e.key==='ArrowRight'||e.key===' ') nav(1); if(e.key==='ArrowLeft') nav(-1); });
 <\/script></body></html>`;
 }
 
-/* =====================================================
-   СБРОС + СТАРТ
-   ===================================================== */
+/* ================= СБРОС ================= */
 function resetAll() {
-  if (!confirm('Удалить все слайды и редакторы?')) return;
+  if (!confirm('Удалить все слайды, вопросы и редакторы?')) return;
   localStorage.removeItem('quest-studio');
   project = JSON.parse(JSON.stringify(DEFAULT_PROJECT));
   selected = null;
@@ -1142,7 +1596,8 @@ function resetAll() {
   toast('Всё сброшено');
 }
 
-setupDropZone();
+/* ================= СТАРТ ================= */
+setupStageDrop();
 render();
 
 window.addEventListener('keydown', e => {
