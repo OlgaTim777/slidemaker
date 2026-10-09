@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Конструктор квестов</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; height: 100vh; overflow: hidden;
+         display: grid; grid-template-columns: 220px 1fr 260px; grid-template-rows: 50px 1fr;
+         background: #f0f0f5; color: #333; }
+  header { grid-column: 1/-1; background: #fff; border-bottom: 1px solid #ddd;
+           display: flex; align-items: center; padding: 0 16px; gap: 10px; }
+  header h1 { font-size: 16px; margin-right: auto; }
+  button { padding: 8px 14px; border: none; border-radius: 6px;
+           background: #5b6cff; color: #fff; cursor: pointer; font-size: 14px; }
+  button:hover { background: #6d7cff; }
+  button.ghost { background: #eee; color: #333; }
+  button.ghost:hover { background: #ddd; }
+  button.danger { background: #e35; }
+  aside { background: #fff; border-right: 1px solid #ddd; padding: 12px; overflow-y: auto; }
+  aside.right { border-right: none; border-left: 1px solid #ddd; }
+  aside h3 { font-size: 12px; text-transform: uppercase; color: #888;
+             letter-spacing: .5px; margin-bottom: 10px; }
+  #slides { display: flex; flex-direction: column; gap: 8px; }
+  .thumb { background: #f0f0f5; padding: 10px; border-radius: 6px;
+           cursor: pointer; border: 2px solid transparent; font-size: 13px;
+           display: flex; justify-content: space-between; align-items: center; }
+  .thumb.active { border-color: #5b6cff; background: #eef0ff; }
+  .thumb .x { color: #e35; font-size: 16px; padding: 0 4px; }
+  #stageWrap { overflow: auto; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  #stage { background: #fff; position: relative; box-shadow: 0 8px 30px rgba(0,0,0,.15);
+           width: 960px; height: 540px; }
+  .el { position: absolute; cursor: move; min-width: 30px; min-height: 30px; }
+  .el.selected { outline: 2px solid #5b6cff; }
+  .el .handle { position: absolute; width: 12px; height: 12px; background: #5b6cff;
+                right: -6px; bottom: -6px; border-radius: 2px; cursor: se-resize; }
+  .el img, .el video { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+  .el iframe { width: 100%; height: 100%; border: none; }
+  .el audio { width: 100%; }
+  .el .txt { padding: 6px; width: 100%; height: 100%; overflow: hidden;
+             font-size: 18px; white-space: pre-wrap; }
+  .el .btn { background: #5b6cff; color: #fff; width: 100%; height: 100%;
+             display: flex; align-items: center; justify-content: center;
+             border-radius: 8px; font-weight: 600; }
+  .el .empty-img { width: 100%; height: 100%; background: #eee;
+                   display: flex; align-items: center; justify-content: center;
+                   color: #999; font-size: 12px; text-align: center; padding: 8px; }
+  .addBtn { display: block; width: 100%; text-align: left; padding: 10px 12px;
+            margin-bottom: 6px; background: #f0f0f5; color: #333; border-radius: 6px; font-size: 13px; }
+  .addBtn:hover { background: #e0e0ea; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; }
+  .field input, .field textarea { width: 100%; padding: 8px; border: 1px solid #ddd;
+                                   border-radius: 6px; font-size: 13px; font-family: inherit; }
+  .field textarea { min-height: 60px; resize: vertical; }
+  #preview { position: fixed; inset: 0; background: #000; z-index: 100; display: none; }
+  #preview iframe { width: 100%; height: 100%; border: none; }
+  #preview .close { position: absolute; top: 16px; right: 16px; z-index: 101; }
+  #preview .nav { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+                  display: flex; gap: 10px; z-index: 101; }
+  .hint { font-size: 12px; color: #888; padding: 8px; background: #f8f8fc;
+          border-radius: 6px; margin-bottom: 12px; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎮 Конструктор квестов</h1>
+  <button class="ghost" onclick="addSlide()">+ Слайд</button>
+  <button onclick="preview()">▶ Просмотр</button>
+  <button onclick="exportQuest()">💾 Скачать квест</button>
+</header>
+
+<aside>
+  <h3>Слайды</h3>
+  <div id="slides"></div>
+</aside>
+
+<main id="stageWrap">
+  <div id="stage"></div>
+</main>
+
+<aside class="right">
+  <h3>Что добавить</h3>
+  <button class="addBtn" onclick="add('image')">🖼 Картинка / GIF</button>
+  <button class="addBtn" onclick="add('audio')">🔊 Аудио</button>
+  <button class="addBtn" onclick="add('video')">🎬 Видео</button>
+  <button class="addBtn" onclick="add('iframe')">🎮 Игра (ссылка)</button>
+  <button class="addBtn" onclick="add('text')">📝 Текст</button>
+  <button class="addBtn" onclick="add('button')">➡ Кнопка перехода</button>
+  <h3 style="margin-top:20px">Настройки</h3>
+  <div id="props"><div class="hint">Нажмите на элемент, чтобы изменить его.</div></div>
+</aside>
+
+<div id="preview">
+  <button class="close" onclick="closePreview()">✕ Закрыть</button>
+  <iframe id="previewFrame"></iframe>
+  <div class="nav">
+    <button class="ghost" onclick="previewNav(-1)">← Назад</button>
+    <button onclick="previewNav(1)">Вперёд →</button>
+  </div>
+</div>
+
+<script>
+const W = 960, H = 540;
+let project = load() || {
+  slides: [{ id: id(), name: 'Слайд 1', bg: '#ffffff', elements: [] }],
+  current: 0
+};
+let selected = null;
+let previewIndex = 0;
+
+function id() { return Math.random().toString(36).slice(2, 9); }
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function save() { localStorage.setItem('quest-builder', JSON.stringify(project)); }
+function load() { try { return JSON.parse(localStorage.getItem('quest-builder')); } catch(e) { return null; } }
+
+function addSlide() {
+  project.slides.push({ id: id(), name: 'Слайд ' + (project.slides.length + 1), bg: '#ffffff', elements: [] });
+  project.current = project.slides.length - 1;
+  selected = null;
+  render(); save();
+}
+function deleteSlide(i) {
+  if (project.slides.length === 1) { alert('Должен остаться хотя бы один слайд'); return; }
+  if (!confirm('Удалить этот слайд?')) return;
+  project.slides.splice(i, 1);
+  if (project.current >= project.slides.length) project.current = project.slides.length - 1;
+  selected = null;
+  render(); save();
+}
+function selectSlide(i) { project.current = i; selected = null; render(); }
+
+function add(type) {
+  const defaults = {
+    image:  { w: 300, h: 200, src: '' },
+    audio:  { w: 320, h: 60,  src: '' },
+    video:  { w: 400, h: 240, src: '' },
+    iframe: { w: 500, h: 350, src: '' },
+    text:   { w: 300, h: 80,  text: 'Введите текст' },
+    button: { w: 180, h: 55,  text: 'Далее', toSlide: 0 }
+  }[type];
+  const el = { id: id(), type, x: 80, y: 80, ...defaults };
+  project.slides[project.current].elements.push(el);
+  selected = el.id;
+  render(); save();
+}
+function removeEl() {
+  const s = project.slides[project.current];
+  s.elements = s.elements.filter(e => e.id !== selected);
+  selected = null;
+  render(); save();
+}
+
+function render() {
+  const list = document.getElementById('slides');
+  list.innerHTML = '';
+  project.slides.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'thumb' + (i === project.current ? ' active' : '');
+    d.innerHTML = `<span>${i+1}. ${esc(s.name)}</span>
+                   <span class="x" onclick="event.stopPropagation();deleteSlide(${i})">✕</span>`;
+    d.onclick = () => selectSlide(i);
+    list.appendChild(d);
+  });
+
+  const s = project.slides[project.current];
+  const stage = document.getElementById('stage');
+  stage.style.width = W + 'px';
+  stage.style.height = H + 'px';
+  stage.style.background = s.bg;
+  stage.innerHTML = '';
+  s.elements.forEach(el => stage.appendChild(renderEl(el)));
+  stage.onmousedown = e => { if (e.target === stage) { selected = null; render(); } };
+
+  renderProps();
+  save();
+}
+
+function renderEl(el) {
+  const d = document.createElement('div');
+  d.className = 'el' + (selected === el.id ? ' selected' : '');
+  d.style.cssText = `left:${el.x}px;top:${el.y}px;width:${el.w}px;height:${el.h}px;`;
+  let inner = '';
+  if (el.type === 'image')
+    inner = el.src ? `<img src="${esc(el.src)}">` : `<div class="empty-img">Вставьте ссылку на картинку →</div>`;
+  if (el.type === 'audio')
+    inner = el.src ? `<audio controls src="${esc(el.src)}"></audio>` : `<div class="empty-img">Вставьте ссылку на аудио →</div>`;
+  if (el.type === 'video')
+    inner = el.src ? `<video controls src="${esc(el.src)}"></video>` : `<div class="empty-img">Вставьте ссылку на видео →</div>`;
+  if (el.type === 'iframe')
+    inner = el.src ? `<iframe src="${esc(el.src)}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>` : `<div class="empty-img">Вставьте ссылку на игру →</div>`;
+  if (el.type === 'text') inner = `<div class="txt">${esc(el.text)}</div>`;
+  if (el.type === 'button') inner = `<div class="btn">${esc(el.text)}</div>`;
+  d.innerHTML = inner + `<div class="handle"></div>`;
+
+  d.onmousedown = e => {
+    if (e.target.classList.contains('handle')) return;
+    e.stopPropagation();
+    selected = el.id;
+    document.querySelectorAll('.el').forEach(n => n.classList.remove('selected'));
+    d.classList.add('selected');
+    renderProps();
+    const sx = e.clientX, sy = e.clientY, ox = el.x, oy = el.y;
+    const move = ev => {
+      el.x = Math.max(0, ox + ev.clientX - sx);
+      el.y = Math.max(0, oy + ev.clientY - sy);
+      d.style.left = el.x + 'px';
+      d.style.top  = el.y + 'px';
+    };
+    const up = () => {
+      document.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseup', up);
+      save();
+    };
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
+  };
+  d.querySelector('.handle').onmousedown = e => {
+    e.stopPropagation();
+    const sx = e.clientX, sy = e.clientY, ow = el.w, oh = el.h;
+    const move = ev => {
+      el.w = Math.max(40, ow + ev.clientX - sx);
+      el.h = Math.max(30, oh + ev.clientY - sy);
+      d.style.width = el.w + 'px';
+      d.style.height = el.h + 'px';
+    };
+    const up = () => {
+      document.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseup', up);
+      save();
+    };
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
+  };
+  return d;
+}
+
+function renderProps() {
+  const box = document.getElementById('props');
+  const s = project.slides[project.current];
+  const el = s.elements.find(e => e.id === selected);
+  if (!el) { box.innerHTML = '<div class="hint">Нажмите на элемент, чтобы изменить его.</div>'; return; }
+  let h = '';
+  if (['image','audio','video','iframe'].includes(el.type)) {
+    h += `<div class="field"><label>Ссылка</label>
+      <input value="${esc(el.src)}" placeholder="https://..." oninput="upd('src', this.value)"></div>`;
+  }
+  if (el.type === 'text') {
+    h += `<div class="field"><label>Текст</label>
+      <textarea oninput="upd('text', this.value)">${esc(el.text)}</textarea></div>`;
+  }
+  if (el.type === 'button') {
+    h += `<div class="field"><label>Надпись на кнопке</label>
+      <input value="${esc(el.text)}" oninput="upd('text', this.value)"></div>`;
+    h += `<div class="field"><label>Переход на слайд №</label>
+      <input type="number" min="1" max="${project.slides.length}" value="${(el.toSlide||0)+1}"
+             oninput="upd('toSlide', Math.max(0, (+this.value)-1))"></div>`;
+  }
+  h += `<div class="field"><label>Позиция X, Y</label>
+    <div style="display:flex;gap:6px">
+      <input type="number" value="${Math.round(el.x)}" oninput="upd('x', +this.value)">
+      <input type="number" value="${Math.round(el.y)}" oninput="upd('y', +this.value)">
+    </div></div>`;
+  h += `<div class="field"><label>Размер (ширина, высота)</label>
+    <div style="display:flex;gap:6px">
+      <input type="number" value="${Math.round(el.w)}" oninput="upd('w', +this.value)">
+      <input type="number" value="${Math.round(el.h)}" oninput="upd('h', +this.value)">
+    </div></div>`;
+  h += `<button class="danger" style="width:100%;margin-top:10px" onclick="removeEl()">Удалить элемент</button>`;
+  box.innerHTML = h;
+}
+function upd(key, val) {
+  const s = project.slides[project.current];
+  const el = s.elements.find(e => e.id === selected);
+  if (!el) return;
+  el[key] = val;
+  if (['x','y','w','h'].includes(key)) {
+    const d = document.querySelector('.el.selected');
+    if (d) {
+      d.style.left = el.x + 'px'; d.style.top = el.y + 'px';
+      d.style.width = el.w + 'px'; d.style.height = el.h + 'px';
+    }
+  } else { render(); }
+  save();
+}
+
+function preview() { previewIndex = 0; updatePreview(); document.getElementById('preview').style.display = 'block'; }
+function closePreview() { document.getElementById('preview').style.display = 'none'; document.getElementById('previewFrame').srcdoc = ''; }
+function previewNav(dir) {
+  const n = previewIndex + dir;
+  if (n < 0 || n >= project.slides.length) return;
+  previewIndex = n; updatePreview();
+}
+function updatePreview() { document.getElementById('previewFrame').srcdoc = buildPlayer(project, previewIndex); }
+
+function exportQuest() {
+  const html = buildPlayer(project, 0);
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'quest.html';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function buildPlayer(proj, startIndex) {
+  const data = JSON.stringify(proj);
+  return `<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><title>Квест</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#111;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui,sans-serif;overflow:hidden}
+  #stage{position:relative;background:#fff;box-shadow:0 10px 60px rgba(0,0,0,.6);width:${W}px;height:${H}px;overflow:hidden}
+  .el{position:absolute}
+  .el img,.el video{width:100%;height:100%;object-fit:contain}
+  .el iframe{width:100%;height:100%;border:none}
+  .el audio{width:100%}
+  .el .txt{padding:6px;width:100%;height:100%;overflow:hidden;font-size:18px;white-space:pre-wrap}
+  .el .btn{background:#5b6cff;color:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:8px;font-weight:600;cursor:pointer;user-select:none}
+  .el .btn:hover{background:#6d7cff}
+  #nav{position:fixed;bottom:16px;right:16px;display:flex;gap:8px;z-index:10}
+  #nav button{padding:10px 18px;background:#5b6cff;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:15px}
+  #nav button:hover{background:#6d7cff}
+</style></head><body>
+<div id="stage"></div>
+<div id="nav"><button onclick="prev()">← Назад</button><button onclick="next()">Вперёд →</button></div>
+<script>
+const P = ${data};
+let cur = ${startIndex || 0};
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+  const s = P.slides[cur];
+  const st = document.getElementById('stage');
+  st.style.background = s.bg; st.innerHTML = '';
+  s.elements.forEach(el=>st.appendChild(renderEl(el)));
+}
+function renderEl(el){
+  const d = document.createElement('div');
+  d.className = 'el';
+  d.style.cssText = 'left:'+el.x+'px;top:'+el.y+'px;width:'+el.w+'px;height:'+el.h+'px';
+  if(el.type==='image') d.innerHTML = el.src ? '<img src="'+esc(el.src)+'">' : '';
+  if(el.type==='audio') d.innerHTML = el.src ? '<audio controls src="'+esc(el.src)+'"></audio>' : '';
+  if(el.type==='video') d.innerHTML = el.src ? '<video controls src="'+esc(el.src)+'"></video>' : '';
+  if(el.type==='iframe') d.innerHTML = el.src ? '<iframe src="'+esc(el.src)+'" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>' : '';
+  if(el.type==='text') d.innerHTML = '<div class="txt">'+esc(el.text)+'</div>';
+  if(el.type==='button'){
+    d.innerHTML = '<div class="btn">'+esc(el.text)+'</div>';
+    d.onclick = ()=>goto(el.toSlide||0);
+  }
+  return d;
+}
+function goto(i){ cur = Math.max(0, Math.min(P.slides.length-1, i)); render(); }
+function next(){ goto(cur+1); }
+function prev(){ goto(cur-1); }
+render();
+<\/script></body></html>`;
+}
+
+render();
+document.addEventListener('keydown', e => { if (e.key === 'Delete' && selected) removeEl(); });
+</script>
+</body>
+</html>
